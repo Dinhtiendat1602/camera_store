@@ -1,0 +1,88 @@
+/* Notification Styles */
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    pointer-events: none;
+}
+
+.notification {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    min-width: 300px;
+    max-width: 500px;
+    animation: slideDown 0.4s ease-out, fadeOut 0.3s ease-in 2.7s forwards;
+    pointer-events: auto;
+    border-left: 4px solid;
+}
+
+.notification.success {
+    border-left-color: #28a745;
+    color: #155724;
+    background: #d4edda;
+}
+
+.notification.success i {
+    color: #28a745;
+    font-size: 18px;
+}
+
+.notification.error {
+    border-left-color: #dc3545;
+    color: #721c24;
+    background: #f8d7da;
+}
+
+.notification.error i {
+    color: #dc3545;
+    font-size: 18px;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .notification-overlay {
+        padding: 15px;
+    }
+    
+    .notification {
+        min-width: auto;
+        width: 100%;
+        max-width: none;
+        font-size: 14px;
+        padding: 12px 20px;
+    }
+}

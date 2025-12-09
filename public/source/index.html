@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyron - Cửa hàng máy ảnh chính hãng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/components/footer.css">
+    <link rel="stylesheet" href="assets/css/components/header.css">
+    <link rel="stylesheet" href="assets/css/page/index.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <a href="index.html">Kyron</a>
+                </div>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li class="dropdown">
+                            <a href="categories.html">Danh mục</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="products.html?brand=canon">Canon</a></li>
+                                <li><a href="products.html?brand=sony">Sony</a></li>
+                                <li><a href="products.html?brand=nikon">Nikon</a></li>
+                                <li><a href="products.html?brand=fujifilm">Fujifilm</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="about.html">Về chúng tôi</a></li>
+                        <li><a href="contact.html">Liên hệ</a></li>
+                    </ul>
+                </nav>
+                <div class="search-bar">
+                    <form action="search.html" method="GET">
+                        <input type="text" name="q" placeholder="Tìm kiếm sản phẩm...">
+                        <button type="submit">Tìm</button>
+                    </form>
+                </div>
+                <div class="header-actions">
+                    <a href="cart.html" class="cart-icon">
+                        <span>Giỏ hàng</span>
+                        <span class="cart-count">0</span>
+                    </a>
+                    <div class="auth-links">
+                        <a href="login.html">Đăng nhập</a>
+                        <span>/</span>
+                        <a href="register.html">Đăng ký</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <section class="slider-container" id="slider">
+        <div class="slider">
+            <!-- Slide 1 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    alt="Máy ảnh chuyên nghiệp">
+                <div class="slide-content">
+                    <h2 class="slide-title">Máy Ảnh Chuyên Nghiệp</h2>
+                    <p class="slide-description">Khám phá bộ sưu tập máy ảnh mirrorless và DSLR từ các thương hiệu hàng
+                        đầu thế giới với công nghệ tiên tiến nhất.</p>
+                    <a href="products.html" class="btn btn-primary">Khám phá ngay</a>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1626&q=80"
+                    alt="Ống kính chất lượng cao">
+                <div class="slide-content">
+                    <h2 class="slide-title">Ống Kính Chất Lượng Cao</h2>
+                    <p class="slide-description">Từ góc rộng đến tele, chúng tôi cung cấp đầy đủ các loại ống kính phù
+                        hợp với mọi nhu cầu nhiếp ảnh của bạn.</p>
+                    <a href="products.html?category=lens" class="btn btn-primary">Xem ống kính</a>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1600056927456-8e5d8b8a22c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    alt="Phụ kiện máy ảnh">
+                <div class="slide-content">
+                    <h2 class="slide-title">Phụ Kiện Đa Dạng</h2>
+                    <p class="slide-description">Đèn flash, tripod, balo và tất cả các phụ kiện cần thiết để bạn có trải
+                        nghiệm chụp ảnh hoàn hảo nhất.</p>
+                    <a href="products.html?category=accessories" class="btn btn-primary">Xem phụ kiện</a>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1552168324-d612d77725e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80"
+                    alt="Khuyến mãi đặc biệt">
+                <div class="slide-content">
+                    <h2 class="slide-title">Khuyến Mãi Đặc Biệt</h2>
+                    <p class="slide-description">Giảm giá lên đến 30% cho các sản phẩm máy ảnh và phụ kiện trong tháng
+                        này. Đừng bỏ lỡ cơ hội!</p>
+                    <a href="products.html?promotion=true" class="btn btn-secondary">Xem khuyến mãi</a>
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1602002418088-9e7a7d87f913?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80"
+                    alt="Hỗ trợ tư vấn">
+                <div class="slide-content">
+                    <h2 class="slide-title">Tư Vấn Chuyên Nghiệp</h2>
+                    <p class="slide-description">Đội ngũ chuyên gia của chúng tôi sẵn sàng tư vấn giúp bạn chọn được sản
+                        phẩm phù hợp nhất với nhu cầu.</p>
+                    <a href="contact.html" class="btn btn-primary">Liên hệ ngay</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="slider-controls">
+            <button class="control-btn active" data-slide="0"></button>
+            <button class="control-btn" data-slide="1"></button>
+            <button class="control-btn" data-slide="2"></button>
+            <button class="control-btn" data-slide="3"></button>
+            <button class="control-btn" data-slide="4"></button>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="slider-nav">
+            <button class="nav-btn prev-btn">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-btn next-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <h2 class="section-title">Sản phẩm nổi bật</h2>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80"
+                            alt="Canon EOS R5">
+                        <div class="product-overlay">
+                            <a href="product-detail.html?id=1" class="btn btn-secondary">Xem chi tiết</a>
+                            <button class="btn btn-primary add-to-cart" data-id="1">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Canon EOS R5</h3>
+                        <div class="product-price">
+                            <span class="current-price">69.990.000₫</span>
+                            <span class="original-price">75.990.000₫</span>
+                        </div>
+                        <p class="product-description">Máy ảnh mirrorless full-frame với độ phân giải 45MP và quay video
+                            8K</p>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1552168324-d612d77725e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80"
+                            alt="Sony A7 IV">
+                        <div class="product-overlay">
+                            <a href="product-detail.html?id=2" class="btn btn-secondary">Xem chi tiết</a>
+                            <button class="btn btn-primary add-to-cart" data-id="2">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sony A7 IV</h3>
+                        <div class="product-price">
+                            <span class="current-price">52.990.000₫</span>
+                            <span class="original-price">56.990.000₫</span>
+                        </div>
+                        <p class="product-description">Máy ảnh mirrorless full-frame với cảm biến 33MP và hệ thống AF
+                            tiên tiến</p>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1626&q=80"
+                            alt="Nikon Z9">
+                        <div class="product-overlay">
+                            <a href="product-detail.html?id=3" class="btn btn-secondary">Xem chi tiết</a>
+                            <button class="btn btn-primary add-to-cart" data-id="3">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Nikon Z9</h3>
+                        <div class="product-price">
+                            <span class="current-price">119.990.000₫</span>
+                            <span class="original-price">129.990.000₫</span>
+                        </div>
+                        <p class="product-description">Máy ảnh mirrorless flagship với chụp liên tiếp 20fps và quay
+                            video 8K</p>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1600056927456-8e5d8b8a22c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                            alt="Fujifilm X-T5">
+                        <div class="product-overlay">
+                            <a href="product-detail.html?id=4" class="btn btn-secondary">Xem chi tiết</a>
+                            <button class="btn btn-primary add-to-cart" data-id="4">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Fujifilm X-T5</h3>
+                        <div class="product-price">
+                            <span class="current-price">32.990.000₫</span>
+                            <span class="original-price">35.990.000₫</span>
+                        </div>
+                        <p class="product-description">Máy ảnh mirrorless APS-C với cảm biến 40MP và thiết kế cổ điển
+                        </p>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1600056927456-8e5d8b8a22c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                            alt="Fujifilm X-T5">
+                        <div class="product-overlay">
+                            <a href="product-detail.html?id=4" class="btn btn-secondary">Xem chi tiết</a>
+                            <button class="btn btn-primary add-to-cart" data-id="4">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Fujifilm X-T5</h3>
+                        <div class="product-price">
+                            <span class="current-price">32.990.000₫</span>
+                            <span class="original-price">35.990.000₫</span>
+                        </div>
+                        <p class="product-description">Máy ảnh mirrorless APS-C với cảm biến 40MP và thiết kế cổ điển
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="view-all">
+                <a href="products.html" class="btn btn-outline">Xem tất cả sản phẩm</a>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Kyron</h3>
+                    <p>Cửa hàng máy ảnh chính hãng với các sản phẩm chất lượng từ các thương hiệu hàng đầu thế giới.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên kết nhanh</h4>
+                    <ul>
+                        <li><a href="index.html">Trang chủ</a></li>
+                        <li><a href="products.html">Sản phẩm</a></li>
+                        <li><a href="about.html">Về chúng tôi</a></li>
+                        <li><a href="contact.html">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Thương hiệu</h4>
+                    <ul>
+                        <li><a href="products.html?brand=canon">Canon</a></li>
+                        <li><a href="products.html?brand=sony">Sony</a></li>
+                        <li><a href="products.html?brand=nikon">Nikon</a></li>
+                        <li><a href="products.html?brand=fujifilm">Fujifilm</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên hệ</h4>
+                    <p>Địa chỉ: 123 Nguyễn Văn Linh, Quận 7, TP.HCM</p>
+                    <p>Email: info@kyron.com</p>
+                    <p>Điện thoại: 0901 234 567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Kyron. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Slider JavaScript
+        document.addEventListener('DOMContentLoaded', function () {
+            const slider = document.querySelector('.slider');
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const controlBtns = document.querySelectorAll('.control-btn');
+
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            let slideInterval;
+
+            // Initialize slider
+            function initSlider() {
+                updateSliderPosition();
+                updateControlButtons();
+                startAutoSlide();
+            }
+
+            // Move to specific slide
+            function goToSlide(slideIndex) {
+                currentSlide = slideIndex;
+                updateSliderPosition();
+                updateControlButtons();
+                resetAutoSlide();
+            }
+
+            // Move to next slide
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateSliderPosition();
+                updateControlButtons();
+                resetAutoSlide();
+            }
+
+            // Move to previous slide
+            function prevSlide() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateSliderPosition();
+                updateControlButtons();
+                resetAutoSlide();
+            }
+
+            // Update slider position
+            function updateSliderPosition() {
+                slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+
+            // Update control buttons
+            function updateControlButtons() {
+                controlBtns.forEach((btn, index) => {
+                    if (index === currentSlide) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+            // Start automatic sliding
+            function startAutoSlide() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            // Reset automatic sliding timer
+            function resetAutoSlide() {
+                clearInterval(slideInterval);
+                startAutoSlide();
+            }
+
+            // Event listeners
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+
+            controlBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const slideIndex = parseInt(this.getAttribute('data-slide'));
+                    goToSlide(slideIndex);
+                });
+            });
+
+            // Pause auto slide on hover
+            const sliderContainer = document.getElementById('slider');
+            sliderContainer.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+
+            sliderContainer.addEventListener('mouseleave', () => {
+                startAutoSlide();
+            });
+
+            // Initialize the slider
+            initSlider();
+
+            // Add to cart functionality
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const cartCount = document.querySelector('.cart-count');
+            let cartItems = 0;
+
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-id');
+                    cartItems++;
+                    cartCount.textContent = cartItems;
+
+                    // Animation effect
+                    this.textContent = 'Đã thêm!';
+                    this.style.backgroundColor = '#2ecc71';
+
+                    setTimeout(() => {
+                        this.textContent = 'Thêm vào giỏ';
+                        this.style.backgroundColor = '';
+                    }, 1500);
+
+                    // In a real application, you would send this to a server
+                    console.log(`Added product ${productId} to cart`);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới Thiệu Chi Tiết Về Chúng Tôi</title>
+    
+    <style>
+        /* --- THIẾT LẬP CƠ BẢN (CSS) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #343a40;
+        }
+
+        header {
+            background-color: #004d99; /* Xanh đậm sang trọng hơn */
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: #004d99;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            width: 80px;
+            height: 3px;
+            background-color: #004d99;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: #495057;
+            font-size: 1.75rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-left: 4px solid #004d99;
+            padding-left: 15px;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 30px;
+        }
+
+        /* --- CÁC PHẦN CHÍNH --- */
+        .section-padding {
+            padding: 50px 0;
+        }
+
+        .section-background {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 50px;
+        }
+
+        /* Câu chuyện & Tầm nhìn */
+        .story-content, .vision-mission-content {
+            padding: 0;
+        }
+        
+        /* Cột mốc lịch sử */
+        .milestones {
+            text-align: center;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #ced4da;
+            z-index: 1;
+        }
+
+        .milestone-item {
+            width: 20%;
+            position: relative;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .milestone-year {
+            background-color: #004d99;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .milestone-item::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            background-color: #004d99;
+            border: 3px solid #f8f9fa;
+            border-radius: 50%;
+            z-index: 3;
+        }
+
+        /* Giá trị cốt lõi & Cam kết */
+        .goals-commitments {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .goals-list, .commitments-list {
+            flex: 1;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .feature-item i {
+            font-size: 1.5rem;
+            color: #28a745; /* Xanh lá cho cam kết */
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+
+        /* Kêu gọi hành động */
+        .cta-section {
+            background-color: #e9ecef;
+            text-align: center;
+            padding: 60px 0;
+            border-radius: 12px;
+        }
+
+        .cta-section h3 {
+            border: none;
+            padding: 0;
+            color: #343a40;
+        }
+
+        .cta-button {
+            background-color: #dc3545; /* Màu đỏ nổi bật */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .cta-button:hover {
+            background-color: #c82333;
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 992px) {
+            .goals-commitments {
+                flex-direction: column;
+            }
+
+            .timeline {
+                display: block;
+                padding: 0;
+                border-left: 2px solid #ced4da;
+            }
+
+            .timeline::before {
+                display: none;
+            }
+
+            .milestone-item {
+                width: 100%;
+                text-align: left;
+                padding-left: 30px;
+                margin-bottom: 40px;
+            }
+
+            .milestone-item::after {
+                left: -10px;
+                top: 20px;
+                transform: none;
+            }
+
+            .milestone-year {
+                margin-left: 20px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="about-wrapper">
+        <header>
+            <h1>🌟 Giới Thiệu Chi Tiết Về Chúng Tôi</h1>
+            <p>Hành trình xây dựng thương hiệu, cam kết chất lượng và những cột mốc phát triển của chúng tôi.</p>
+        </header>
+
+        <div class="about-container">
+
+            <section class="section-padding story-section section-background">
+                <h2>Câu Chuyện Thương Hiệu</h2>
+                
+                <h3>🔥 Khởi Nguồn Từ Đam Mê và Thách Thức</h3>
+                <p>Nền tảng của chúng tôi không chỉ là một ý tưởng, mà là kết quả của sự thất vọng. Chúng tôi nhận thấy thị trường thiếu vắng một đơn vị thực sự đặt **chất lượng sản phẩm và sự minh bạch** lên hàng đầu. Được thành lập vào cuối năm 2018 bởi một nhóm kỹ sư trẻ đầy nhiệt huyết, chúng tôi đã bắt đầu hành trình với nguồn vốn khiêm tốn nhưng một tầm nhìn lớn: thay đổi cách người tiêu dùng trải nghiệm dịch vụ.</p>
+                
+                <p>Trong những ngày đầu, khó khăn chồng chất từ việc tìm kiếm nguồn cung ứng đáng tin cậy, tối ưu hóa quy trình vận hành phức tạp, cho đến việc xây dựng lòng tin từ những khách hàng đầu tiên. Tuy nhiên, chính những thách thức đó đã tôi luyện chúng tôi, buộc chúng tôi phải sáng tạo và giữ vững cam kết về **dịch vụ khách hàng 24/7**.</p>
+
+                <h3>💡 Triết Lý Kinh Doanh: Đơn Giản & Hiệu Quả</h3>
+                <p>Triết lý của chúng tôi xoay quanh hai yếu tố: **Đơn giản hóa trải nghiệm** và **Tối đa hóa giá trị**. Chúng tôi loại bỏ mọi rào cản phức tạp trong quá trình mua sắm và tập trung vào việc mang lại giá trị thực sự, vượt xa kỳ vọng của khách hàng. Chúng tôi tin rằng, thành công của chúng tôi được xây dựng trên sự hài lòng và lòng trung thành của cộng đồng khách hàng.</p>
+            </section>
+            
+            <section class="section-padding milestones">
+                <h2>🗺️ Các Cột Mốc Lịch Sử</h2>
+                
+                <div class="timeline">
+                    <div class="milestone-item">
+                        <div class="milestone-year">2018</div>
+                        <p>Thành lập công ty, ra mắt phiên bản Beta sản phẩm đầu tiên.</p>
+                    </div>
+                    <div class="milestone-item">
+                        <div class="milestone-year">2020</div>
+                        <p>Đạt mốc 10.000 khách hàng hoạt động thường xuyên, mở rộng kho bãi tại TP. HCM.</p>
+                    </div>
+                    <div class="milestone-item">
+                        <div class="milestone-year">2022</div>
+                        <p>Hoàn thành vòng gọi vốn Series A, nâng cấp hạ tầng công nghệ lõi (Core Tech Stack).</p>
+                    </div>
+                    <div class="milestone-item">
+                        <div class="milestone-year">2024</div>
+                        <p>Mở rộng sang thị trường quốc tế đầu tiên (Thái Lan) và ra mắt ứng dụng di động.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-padding goals-commitments">
+                
+                <div class="goals-list">
+                    <h3>🎯 Mục Tiêu Phát Triển Dài Hạn</h3>
+                    <div class="feature-item">
+                        <i class="icon">📈</i>
+                        <div>
+                            <strong>Tăng trưởng Bền vững:</strong> Đạt tốc độ tăng trưởng doanh thu 30% mỗi năm trong 5 năm tới.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="icon">🌍</i>
+                        <div>
+                            <strong>Mở rộng Khu vực:</strong> Xâm nhập ít nhất 5 thị trường Đông Nam Á vào năm 2028.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="icon">🥇</i>
+                        <div>
+                            <strong>Dẫn đầu Công nghệ:</strong> Áp dụng Trí tuệ nhân tạo (AI) vào 80% quy trình hỗ trợ khách hàng.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="commitments-list">
+                    <h3>🔒 Cam Kết Chất Lượng Tuyệt Đối</h3>
+                    <div class="feature-item">
+                        <i class="icon">✅</i>
+                        <div>
+                            <strong>Bảo hành Toàn diện:</strong> Chính sách đổi trả 30 ngày không cần lý do.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="icon">⏱️</i>
+                        <div>
+                            <strong>Giao hàng Tốc độ:</strong> Đảm bảo giao hàng trong 48 giờ đối với khu vực thành phố lớn.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="icon">🛡️</i>
+                        <div>
+                            <strong>Bảo mật Thông tin:</strong> Cam kết bảo vệ dữ liệu cá nhân khách hàng ở mức cao nhất, tuân thủ tiêu chuẩn quốc tế.
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            
+            <section class="section-padding cta-section">
+                <h3>Bạn đã sẵn sàng trở thành đối tác của chúng tôi chưa?</h3>
+                <p>Khám phá bộ sưu tập sản phẩm của chúng tôi hoặc liên hệ để nhận tư vấn chuyên sâu.</p>
+                <a href="#link-to-products" class="cta-button">KHÁM PHÁ NGAY</a>
+                <a href="#link-to-contact" class="cta-button" style="background-color: #007bff; margin-left: 20px;">TƯ VẤN</a>
+            </section>
+
+        </div>
+    </div>
+
+</body>
+</html>

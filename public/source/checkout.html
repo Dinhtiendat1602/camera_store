@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Thanh Toán Hoàn Chỉnh</title>
+    
+    <style>
+
+
+        /* --- BỐ CỤC CHÍNH --- */
+        .checkout-container {
+            display: flex;
+            max-width: 1300px;
+            margin: 40px auto;
+            padding: 0 30px;
+            gap: 40px;
+        }
+
+        .main-content {
+            flex: 3; /* Chiếm 60% */
+        }
+
+        .order-summary {
+            flex: 2; /* Chiếm 40% */
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+        }
+
+        h2 {
+            color: #343a40;
+            font-size: 1.5rem;
+            padding-bottom: 15px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        /* --- FORM STYLES --- */
+        .form-row::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row .form-group {
+            float: left;
+            margin-right: 20px;
+        }
+
+        .form-group.half-width {
+            width: calc(50% - 10px);
+        }
+
+        .form-group.half-width:last-child {
+            margin-right: 0;
+        }
+
+        .form-group.third-width {
+            width: calc(33.333% - 14px);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #17a2b8;
+            box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        /* --- PHƯƠNG THỨC THANH TOÁN --- */
+        
+        /* Ẩn radio button mặc định */
+        .payment-options input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .radio-group {
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        /* Hiệu ứng Hover */
+        .radio-group:hover:not(.disabled-option) {
+            background-color: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        /* Làm nổi bật khung bao quanh khi radio button được chọn */
+        .radio-group:has(input[type="radio"]:checked) {
+            border-color: #28a745; /* Màu xanh lá cây cho lựa chọn đang active */
+            background-color: #e6ffed;
+        }
+
+        /* Thiết kế lại label để giả lập radio button */
+        .radio-group label {
+            display: block;
+            position: relative;
+            padding-left: 25px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .radio-group label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            background-color: #fff;
+            transition: all 0.2s;
+        }
+
+        /* Tùy chỉnh dấu check khi được chọn */
+        .radio-group input[type="radio"]:checked ~ label::before {
+            border-color: #28a745;
+            background-color: #28a745;
+            box-shadow: inset 0 0 0 4px #fff;
+        }
+
+        /* Chi tiết phương thức */
+        .method-detail {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-top: 5px;
+            margin-bottom: 0;
+            padding-left: 25px;
+        }
+
+        /* Định dạng cho lựa chọn bị vô hiệu hóa */
+        .disabled-option {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .disabled-option label, .disabled-option .method-detail {
+            color: #999;
+        }
+
+
+        /* --- TÓM TẮT ĐƠN HÀNG (SUMMARY) --- */
+        .product-list {
+            margin-bottom: 20px;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .product-name {
+            flex-grow: 1;
+        }
+
+        .product-qty {
+            width: 40px;
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .product-price {
+            font-weight: 600;
+            width: 100px;
+            text-align: right;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #ced4da;
+            margin: 20px 0;
+        }
+
+        .summary-details {
+            padding-top: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .discount-amount {
+            color: #dc3545; /* Màu đỏ cho giảm giá */
+            font-weight: bold;
+        }
+
+        .summary-item.total {
+            border-top: 2px solid #17a2b8;
+            padding-top: 15px;
+            margin-top: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #17a2b8;
+        }
+
+        .place-order-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 1.15em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .place-order-btn:hover {
+            background-color: #218838;
+        }
+
+        .place-order-btn:active {
+            transform: scale(0.99);
+        }
+
+        .policy-note {
+            font-size: 0.8rem;
+            text-align: center;
+            color: #6c757d;
+            margin-top: 15px;
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 992px) {
+            .checkout-container {
+                flex-direction: column;
+                padding: 0 15px;
+                margin: 20px auto;
+                gap: 20px;
+            }
+            
+            .main-content, .order-summary {
+                flex: auto;
+                position: static;
+            }
+
+            .form-row .form-group {
+                float: none;
+                width: 100%;
+                margin-right: 0;
+            }
+
+            .form-group.half-width,
+            .form-group.third-width {
+                width: 100% !important;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="main-content">
+            <section class="shipping-info card">
+                <h2>1. 🚚 Thông tin Giao hàng</h2>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="full-name">Họ và Tên (*)</label>
+                            <input type="text" id="full-name" placeholder="Ví dụ: Nguyễn Văn A" required>
+                        </div>
+                        <div class="form-group half-width">
+                            <label for="phone">Số điện thoại (*)</label>
+                            <input type="tel" id="phone" placeholder="0901 234 567" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group third-width">
+                            <label for="province">Tỉnh / Thành phố (*)</label>
+                            <select id="province" required>
+                                <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                                <option value="hcm">TP. Hồ Chí Minh</option>
+                                <option value="hn">Hà Nội</option>
+                            </select>
+                        </div>
+                        <div class="form-group third-width">
+                            <label for="district">Quận / Huyện (*)</label>
+                            <select id="district" required>
+                                <option value="">-- Chọn Quận/Huyện --</option>
+                            </select>
+                        </div>
+                        <div class="form-group third-width">
+                            <label for="ward">Phường / Xã (*)</label>
+                            <select id="ward" required>
+                                <option value="">-- Chọn Phường/Xã --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address-detail">Địa chỉ chi tiết (*)</label>
+                        <input type="text" id="address-detail" placeholder="Số nhà, tên đường, tòa nhà..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="note">Ghi chú (Tùy chọn)</label>
+                        <textarea id="note" rows="3" placeholder="Ví dụ: Giao hàng vào giờ hành chính..."></textarea>
+                    </div>
+                </form>
+            </section>
+
+            <section class="payment-method card">
+                <h2>2. 💳 Phương thức Thanh toán</h2>
+                <div class="payment-options">
+                    
+                    <div class="radio-group">
+                        <input type="radio" id="cod" name="payment" value="cod" checked>
+                        <label for="cod">Thanh toán khi nhận hàng (COD)</label>
+                        <p class="method-detail">Thanh toán tiền mặt cho nhân viên giao hàng khi nhận đơn.</p>
+                    </div>
+                    
+                    <div class="radio-group">
+                        <input type="radio" id="transfer" name="payment" value="transfer">
+                        <label for="transfer">Chuyển khoản Ngân hàng</label>
+                        <p class="method-detail">Thông tin tài khoản sẽ được hiển thị sau khi đặt hàng thành công.</p>
+                    </div>
+                    
+                    <div class="radio-group">
+                        <input type="radio" id="card" name="payment" value="card">
+                        <label for="card">Thẻ Tín dụng / Ghi nợ</label>
+                        <p class="method-detail">Thanh toán an toàn qua cổng thanh toán.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        
+        <div class="order-summary card">
+            <h2>📝 Đơn hàng của bạn</h2>
+
+            <div class="product-list">
+                <div class="product-item">
+                    <span class="product-name">Máy ảnh sony a6000</span>
+                    <span class="product-qty">x 1</span>
+                    <span class="product-price">250.000₫</span>
+                </div>
+                <div class="product-item">
+                    <span class="product-name">Máy ảnh nikon IV</span>
+                    <span class="product-qty">x 2</span>
+                    <span class="product-price">600.000₫</span>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="summary-details">
+                <div class="summary-item">
+                    <span>Tổng tiền hàng</span>
+                    <span>850.000₫</span>
+                </div>
+                <div class="summary-item">
+                    <span>Phí vận chuyển</span>
+                    <span class="shipping-fee">30.000₫</span>
+                </div>
+                <div class="summary-item">
+                    <span>Mã giảm giá</span>
+                    <span class="discount-amount">-50.000₫</span>
+                </div>
+            </div>
+
+            <div class="summary-item total">
+                <strong>Tổng cộng phải thanh toán</strong>
+                <strong>830.000₫</strong>
+            </div>
+            
+            <button class="place-order-btn">HOÀN TẤT ĐẶT HÀNG</button>
+
+            <p class="policy-note">Bằng cách nhấn **Hoàn Tất Đặt Hàng**, bạn chấp nhận các <a href="#">Điều khoản</a> của chúng tôi.</p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- JAVASCRIPT ĐỂ XỬ LÝ CLICK PHƯƠNG THỨC THANH TOÁN ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const radioGroups = document.querySelectorAll('.radio-group');
+
+            radioGroups.forEach(group => {
+                group.addEventListener('click', function() {
+                    const radioInput = this.querySelector('input[type="radio"]');
+                    
+                    // Chỉ chọn nếu nó không bị disabled
+                    if (radioInput && !radioInput.disabled) {
+                        radioInput.checked = true;
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

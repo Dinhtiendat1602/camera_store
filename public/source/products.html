@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản phẩm - Kyron</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="assets/css/page/products.css">
+</head>
+<body>
+    <section class="products-page">
+        <div class="container">
+            <div class="products-filter">
+                <div class="filter-section">
+                    <h3>Thương hiệu</h3>
+                    <div class="filter-options">
+                        <label><input type="checkbox" name="brand" value="canon"> Canon</label>
+                        <label><input type="checkbox" name="brand" value="sony"> Sony</label>
+                        <label><input type="checkbox" name="brand" value="nikon"> Nikon</label>
+                        <label><input type="checkbox" name="brand" value="fujifilm"> Fujifilm</label>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h3>Giá</h3>
+                    <div class="filter-options">
+                        <label><input type="radio" name="price" value="0-20"> Dưới 20 triệu</label>
+                        <label><input type="radio" name="price" value="20-40"> 20 - 40 triệu</label>
+                        <label><input type="radio" name="price" value="40-60"> 40 - 60 triệu</label>
+                        <label><input type="radio" name="price" value="60+"> Trên 60 triệu</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="products-grid">
+                <!-- Sản phẩm sẽ được hiển thị ở đây -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/products/canon-eos-r6.jpg" alt="Canon EOS R6">
+                        <div class="product-overlay">
+                            <a href="product-detail.html?id=5" class="btn btn-secondary">Xem chi tiết</a>
+                            <button class="btn btn-primary add-to-cart" data-id="5">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Canon EOS R6</h3>
+                        <div class="product-price">
+                            <span class="current-price">45.990.000₫</span>
+                            <span class="original-price">49.990.000₫</span>
+                        </div>
+                        <p class="product-description">Máy ảnh mirrorless full-frame với hệ thống ổn định hình ảnh 8 stop</p>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="images/products/sony-a7iii.jpg" alt="Sony A7 III">
+                        <div class="product-overlay">
+                            <a href="product-detail.html?id=6" class="btn btn-secondary">Xem chi tiết</a>
+                            <button class="btn btn-primary add-to-cart" data-id="6">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sony A7 III</h3>
+                        <div class="product-price">
+                            <span class="current-price">32.990.000₫</span>
+                            <span class="original-price">35.990.000₫</span>
+                        </div>
+                        <p class="product-description">Máy ảnh mirrorless full-frame với cảm biến 24.2MP</p>
+                    </div>
+                </div>
+
+                <!-- Thêm các sản phẩm khác -->
+            </div>
+
+            <div class="pagination">
+                <a href="#" class="page-link active">1</a>
+                <a href="#" class="page-link">2</a>
+                <a href="#" class="page-link">3</a>
+                <a href="#" class="page-link">Next</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="assets/js/effects.js"></script>
+</body>
+</html>
