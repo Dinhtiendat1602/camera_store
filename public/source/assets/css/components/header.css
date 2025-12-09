@@ -1,0 +1,145 @@
+
+/* Header */
+.header {
+  background-color: #1a1a2e;
+  color: white;
+  padding: 5px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  font-size: 28px;
+  font-weight: 700;
+  color: #4cc9f0;
+  text-decoration: none;
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+}
+
+.main-nav li {
+  margin: 0 15px;
+  position: relative;
+}
+
+.main-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 0;
+  transition: color 0.3s;
+}
+
+.main-nav a:hover {
+  color: #4cc9f0;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 156%;
+  left: 0;
+  background-color: rgb(0, 0, 0);
+  min-width: 180px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(50px);
+  transition: all 0.3s;
+  z-index: 100;
+}
+
+.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-24.1%);
+}
+
+.dropdown-menu li {
+  margin: 0;
+}
+
+.dropdown-menu a {
+  color: #ffffff;
+  display: block;
+  padding: 10px 15px;
+}
+
+.dropdown-menu a:hover {
+  color: #4cc9f0;}
+
+.search-bar form {
+  display: flex;
+}
+
+.search-bar .search-input {
+  padding: 8px 12px;
+  width: 150px; 
+  border: none;
+}
+
+.search-bar button {
+  background-color: #4cc9f0;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+  background-color: #3aa8d0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cart-icon {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+  font-size: large;
+}
+
+.cart-count {
+  background-color: #e63946;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  position: relative;
+  left: -20%;
+  transform: translateY(-50%);
+}
+
+.auth-links a {
+  color: white;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.auth-links a:hover {
+  text-decoration: underline;
+}

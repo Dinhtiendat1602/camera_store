@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập Tài Khoản</title>
+    <style>
+        /* 1. Thiết lập nền và font chữ */
+        .body_login {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Giả sử ảnh nền là 'login.png' như trong code cũ */
+            background-image: url(images/products/loginvip.png);
+
+            /* --- CẬP NHẬT TẠI ĐÂY --- */
+            /* 1. Kích thước: Đảm bảo ảnh che phủ toàn bộ khu vực */
+            background-size: cover;
+            /* 2. Vị trí: Đặt ảnh nền vào chính giữa */
+            background-position: center;
+            /* 3. Đảm bảo ảnh không lặp lại */
+            background-repeat: no-repeat;
+            /* 4. Cố định nền khi cuộn trang */
+            background-attachment: fixed;
+            /* ------------------------ */
+
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* 2. Container cho Form Đăng Nhập */
+        .login-container {
+            position: absolute;
+            bottom: 1%;
+            right: 35%;
+            background-color: rgba(255, 255, 255, 0.0);
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            /* Giữ nguyên chiều rộng tối đa */
+            max-width: 450px;
+        }
+
+        /* 3. Tiêu đề */
+        .login-header h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-header p {
+            text-align: center;
+            color: #228b2b;
+            margin-top: 0;
+            margin-bottom: 20px;
+            /* Tăng margin bottom cho tiêu đề */
+            font-size: 14px;
+        }
+
+        /* 4. Các ô input (Giống hệt form đăng ký) */
+        .form-group {
+            margin-bottom: 15px;
+            /* Điều chỉnh để có khoảng cách tốt hơn */
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #de000046;
+            background-color: #100c1537;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .form-control:focus {
+            border-color: #764ba2;
+            outline: none;
+        }
+
+        /* Phần tùy chọn: Quên mật khẩu/Ghi nhớ */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .form-options a {
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* 5. Nút bấm */
+        .btn-login {
+            /* Đổi tên class thành btn-login */
+            width: 100%;
+            padding: 12px;
+            background: #764ba2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background: #100c15;
+        }
+
+        /* 6. Link chuyển trang */
+        .register-link {
+            /* Đổi tên class thành register-link */
+            margin-top: 25px;
+            text-align: center;
+            font-size: 14px;
+            color: #2401eb;
+        }
+
+        .register-link a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body class="body_login">
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Đăng Nhập</h2>
+            <p>Sử dụng email và mật khẩu của bạn để đăng nhập</p>
+        </div>
+
+        <form action="" method="POST">
+
+            <div class="form-group">
+                <label for="email">Địa chỉ Email</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="nhap@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="********"
+                    required>
+            </div>
+
+            <div class="form-options">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember" style="font-weight: normal; color: #ffffff;">Ghi nhớ tôi</label>
+                </div>
+                <a href="/forgot-password">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" class="btn-login">ĐĂNG NHẬP</button>
+
+            <div class="register-link">
+                Bạn chưa có tài khoản? <a href="/register">Đăng ký ngay</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+</html>

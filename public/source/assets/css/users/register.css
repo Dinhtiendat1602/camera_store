@@ -1,0 +1,106 @@
+        /* 1. Thiết lập nền và font chữ (Giống form login) */
+        .body_rigester {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url(/source/images/products/login.png);
+            min-height: 100vh;
+            /* Dùng min-height để không bị cắt nếu form dài */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            /* Thêm padding để trên mobile không bị sát lề */
+            box-sizing: border-box;
+        }
+        .register-container {
+            position: relative;
+            right:-28%;
+            /* Thay đổi giá trị 1.0 (đục) thành 0.9 (trong suốt 10%) */
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        /* 3. Tiêu đề */
+        .register-header h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .register-header p {
+            text-align: center;
+            color: #017907;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        /* 4. Các ô input */
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #141909;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-size: 12px;
+        }
+
+        .form-control:focus {
+            border-color: #764ba2;
+            outline: none;
+        }
+
+        /* 5. Nút bấm */
+        .btn-register {
+            width: 100%;
+            padding: 10px;
+            background: #764ba2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-register:hover {
+            background: #100c15;
+        }
+
+        /* 6. Link chuyển trang */
+        .login-link {
+            margin-top: 5px;
+            text-align: center;
+            font-size: 14px;
+            color: #2401eb;
+        }
+
+        .login-link a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }

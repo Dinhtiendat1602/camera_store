@@ -1,0 +1,784 @@
+
+
+/* Slider Styles */
+.slider-container {
+  width: 100%;
+  height: 540px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 40px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.slider {
+  display: flex;
+  height: 100%;
+  transition: transform 0.8s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  color: white;
+  padding: 40px;
+  padding-top: 100px;
+}
+
+.slide-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.slide-description {
+  font-size: 18px;
+  max-width: 600px;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background-color: #4cc9f0;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #3aa8d0;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-secondary:hover {
+  background-color: white;
+  color: #333;
+}
+
+.slider-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.control-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.control-btn.active {
+  background-color: white;
+}
+
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 10;
+}
+
+.nav-btn {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.3s;
+}
+
+.nav-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Featured Products */
+.featured-products,.bestsale-products {
+  padding: 10px 10px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 40px;
+  color: #1a1a2e;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background-color: #4cc9f0;
+  border-radius: 2px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(219px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.product-card {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+  height: 220px;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+.product-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.product-card:hover .product-overlay {
+  opacity: 1;
+}
+
+.product-info {
+  padding: 20px;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #1a1a2e;
+}
+
+.product-name a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.product-name a:hover {
+  color: #4cc9f0;
+}
+
+.product-price {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.current-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e63946;
+}
+
+.original-price {
+  font-size: 16px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.product-description {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.view-all {
+  text-align: center;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #4cc9f0;
+  border: 2px solid #4cc9f0;
+  padding: 12px 30px;
+}
+
+.btn-outline:hover {
+  background-color: #4cc9f0;
+  color: white;
+}
+
+        /* Section chính */
+        .camera-brand-section {
+            padding: 20px 20px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.75rem;
+            color: #0f172a;
+            margin-bottom: 16px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 5px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 3px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 30px auto 60px;
+        }
+        
+        /* Lựa chọn hãng */
+        .brand-selection {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 70px;
+        }
+        
+        .brand-card {
+            width: 200px;
+            height: 200px;
+            background-color: white;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .brand-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        
+        .brand-card.active {
+            border-color: #3b82f6;
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.15);
+        }
+        
+        .brand-logo {
+            font-size: 3.5rem;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* Sony */
+        .sony-brand {
+            color: #1e1e1e;
+        }
+        
+        .sony-card.active {
+            border-color: #1e1e1e;
+            box-shadow: 0 15px 35px rgba(30, 30, 30, 0.15);
+        }
+        
+        /* Fujifilm */
+        .fujifilm-brand {
+            color: #ed1c24;
+        }
+        
+        .fujifilm-card.active {
+            border-color: #ed1c24;
+            box-shadow: 0 15px 35px rgba(237, 28, 36, 0.15);
+        }
+        
+        /* Nikon */
+        .nikon-brand {
+            color: #ffc107;
+        }
+        
+        .nikon-card.active {
+            border-color: #ffc107;
+            box-shadow: 0 15px 35px rgba(255, 193, 7, 0.15);
+        }
+        
+        /* Canon */
+        .canon-brand {
+            color: #bb0000;
+        }
+        
+        .canon-card.active {
+            border-color: #bb0000;
+            box-shadow: 0 15px 35px rgba(187, 0, 0, 0.15);
+        }
+        
+        /* Thông tin hãng */
+        .brand-info {
+            background-color: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            margin-bottom: 60px;
+            display: none;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .brand-info.active {
+            display: block;
+        }
+        
+        .info-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .info-icon {
+            font-size: 2.5rem;
+            margin-right: 25px;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+        }
+        
+        .sony-icon {
+            background-color: #f1f5f9;
+            color: #1e1e1e;
+        }
+        
+        .fujifilm-icon {
+            background-color: #fee;
+            color: #ed1c24;
+        }
+        
+        .nikon-icon {
+            background-color: #fff9e6;
+            color: #ffc107;
+        }
+        
+        .canon-icon {
+            background-color: #ffe6e6;
+            color: #bb0000;
+        }
+        
+        .info-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .info-tagline {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+        
+        /* Đặc điểm nổi bật */
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .feature-box {
+            background-color: #f8fafc;
+            border-radius: 16px;
+            padding: 28px;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px);
+            background-color: #f1f5f9;
+        }
+        
+        .feature-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        
+        .feature-icon {
+            margin-right: 12px;
+            font-size: 1.5rem;
+        }
+        
+        .feature-content {
+            color: #475569;
+            line-height: 1.7;
+        }
+        
+        /* Phù hợp với */
+        .suitability {
+            margin-top: 40px;
+        }
+        
+        .suitability-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .suitability-icon {
+            margin-right: 12px;
+            font-size: 1.5rem;
+            color: #3b82f6;
+        }
+        
+        .suitability-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .suitability-item {
+            background-color: #f1f5f9;
+            padding: 12px 22px;
+            border-radius: 50px;
+            font-weight: 500;
+            color: #475569;
+            display: flex;
+            align-items: center;
+        }
+        
+        .suitability-item i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+        
+        /* Nút so sánh */
+        .comparison-area {
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        .comparison-title {
+            font-size: 1.8rem;
+            color: #0f172a;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        .action-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .action-button {
+            padding: 18px 36px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .compare-action {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+        }
+        
+        .compare-action:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(59, 130, 246, 0.25);
+        }
+        
+        .expert-action {
+            background-color: white;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
+        }
+        
+        .expert-action:hover {
+            background-color: #f0f7ff;
+            transform: translateY(-4px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .brand-card {
+                width: 170px;
+                height: 170px;
+            }
+            
+            .brand-logo {
+                font-size: 3rem;
+            }
+            
+            .brand-name {
+                font-size: 1.3rem;
+            }
+            
+            .info-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .info-icon {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .camera-brand-section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .brand-selection {
+                gap: 15px;
+            }
+            
+            .brand-card {
+                width: 140px;
+                height: 140px;
+                padding: 20px;
+            }
+            
+            .brand-logo {
+                font-size: 2.5rem;
+                height: 50px;
+                margin-bottom: 10px;
+            }
+            
+            .brand-info {
+                padding: 30px;
+            }
+            
+            .info-title {
+                font-size: 1.8rem;
+            }
+            
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .action-button {
+                width: 100%;
+                max-width: 350px;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .brand-selection {
+                gap: 12px;
+            }
+            
+            .brand-card {
+                width: calc(50% - 12px);
+                height: 150px;
+            }
+            
+            .suitability-list {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+/* Responsive */
+@media (max-width: 1024px) {
+  .slider-container {
+    height: 500px;
+  }
+
+  .slide-title {
+    font-size: 30px;
+  }
+
+  .slide-description {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-top {
+    flex-wrap: wrap;
+  }
+
+  .main-nav {
+    order: 3;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .main-nav ul {
+    justify-content: center;
+  }
+
+  .slider-container {
+    height: 400px;
+  }
+
+  .slide-content {
+    padding: 20px;
+    padding-top: 80px;
+  }
+
+  .slide-title {
+    font-size: 24px;
+  }
+
+  .slide-description {
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .slider-container {
+    height: 300px;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+}

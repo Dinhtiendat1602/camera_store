@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm Sản phẩm - Camera Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --light: #f8f9fa;
+            --dark: #1f2937;
+            --gray: #6b7280;
+            --light-gray: #e5e7eb;
+            --border: #d1d5db;
+            --radius: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .logo-text h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .logo-text span {
+            color: var(--primary);
+        }
+
+        .logo-text p {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(114, 9, 183, 0.1));
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .search-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        /* Search Filters */
+        .search-filters {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-title a {
+            font-size: 14px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .filter-group {
+            margin-bottom: 15px;
+        }
+
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: border 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            background-color: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .price-input {
+            flex: 1;
+        }
+
+        .price-separator {
+            color: var(--gray);
+        }
+
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .filter-checkbox input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .filter-checkbox label {
+            font-size: 14px;
+            color: var(--dark);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .brand-list {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .brand-list::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .brand-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .brand-list::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        /* Search Results */
+        .search-results {
+            flex: 1;
+        }
+
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .search-info p {
+            color: var(--gray);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .sort-options {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sort-label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            padding: 5px 12px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .product-badge.sale {
+            background-color: var(--danger);
+        }
+
+        .product-badge.new {
+            background-color: var(--success);
+        }
+
+        .product-badge.featured {
+            background-color: var(--primary);
+        }
+
+        .product-image {
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 48px;
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-category {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .product-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+            line-height: 1.4;
+            height: 44px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .current-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .original-price {
+            font-size: 16px;
+            color: var(--gray);
+            text-decoration: line-through;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .product-stock {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stock-in {
+            color: var(--success);
+        }
+
+        .stock-out {
+            color: var(--danger);
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .rating-stars {
+            color: #f59e0b;
+        }
+
+        .rating-count {
+            color: var(--gray);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .product-actions .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .page-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            background: white;
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            transition: all 0.2s ease;
+        }
+
+        .page-link:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .page-link.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .page-link.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .no-results-icon {
+            width: 100px;
+            height: 100px;
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--gray);
+            font-size: 40px;
+        }
+
+        .no-results h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .no-results p {
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Quick View Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            width: 100%;
+            max-width: 900px;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--gray);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover {
+            color: var(--danger);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: white;
+        }
+
+        .footer-col p {
+            color: #9ca3af;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-link {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .search-container {
+                grid-template-columns: 250px 1fr;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .search-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-filters {
+                position: static;
+            }
+            
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .header-actions .btn:first-child {
+                display: none;
+            }
+            
+            .search-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .sort-options {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 20px;
+            }
+            
+            .product-content {
+                padding: 15px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .hero {
+                padding: 40px 0;
+            }
+            
+            .filter-section {
+                padding: 15px;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <i class="fas fa-camera"></i>
+                    <div class="logo-text">
+                        <h1>Camera<span>Store</span></h1>
+                        <p>Chuyên gia camera chính hãng</p>
+                    </div>
+                </a>
+                
+                <nav class="nav-menu">
+                    <a href="#" class="nav-link">Trang chủ</a>
+                    <a href="#" class="nav-link">Sản phẩm</a>
+                    <a href="#" class="nav-link">Thương hiệu</a>
+                    <a href="#" class="nav-link">Khuyến mãi</a>
+                    <a href="#" class="nav-link">Liên hệ</a>
+                    <a href="#" class="nav-link active">Tìm kiếm</a>
+                </nav>
+                
+                <div class="header-actions">
+                    <a href="#" class="btn btn-outline">
+                        <i class="fas fa-user"></i>
+                        Đăng nhập
+                    </a>
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i>
+                        Giỏ hàng
+                    </a>
+                    <button class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Tìm kiếm sản phẩm</h2>
+            <p>Khám phá bộ sưu tập camera và phụ kiện chính hãng từ các thương hiệu hàng đầu thế giới</p>
+            <div class="breadcrumb">
+                <a href="#">Trang chủ</a>
+                <span>/</span>
+                <span>Tìm kiếm</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="search-container">
+            <!-- Search Filters -->
+            <aside class="search-filters">
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <span>Tìm kiếm</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Nhập từ khóa tìm kiếm...">
+                    </div>
+                    <button class="btn btn-primary" id="searchButton" style="width: 100%;">
+                        <i class="fas fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <span>Thương hiệu</span>
+                        <a href="#" id="clearBrands">Xóa tất cả</a>
+                    </div>
+                    <div class="brand-list" id="brandFilter">
+                        <!-- Brands will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <span>Khoảng giá</span>
+                    </div>
+                    <div class="price-range">
+                        <input type="number" class="form-control price-input" id="minPrice" placeholder="Từ" min="0">
+                        <span class="price-separator">-</span>
+                        <input type="number" class="form-control price-input" id="maxPrice" placeholder="Đến" min="0">
+                    </div>
+                    <button class="btn btn-outline btn-sm" id="applyPriceFilter" style="width: 100%; margin-top: 10px;">
+                        Áp dụng
+                    </button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <span>Tình trạng</span>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="inStock" checked>
+                        <label for="inStock">Còn hàng</label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="onSale">
+                        <label for="onSale">Đang giảm giá</label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="featured">
+                        <label for="featured">Sản phẩm nổi bật</label>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-title">
+                        <span>Đánh giá</span>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="rating5">
+                        <label for="rating5">
+                            <span class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="rating4">
+                        <label for="rating4">
+                            <span class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </span> trở lên
+                        </label>
+                    </div>
+                    <div class="filter-checkbox">
+                        <input type="checkbox" id="rating3">
+                        <label for="rating3">
+                            <span class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </span> trở lên
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline" id="resetFilters" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-redo"></i>
+                    Đặt lại bộ lọc
+                </button>
+            </aside>
+            
+            <!-- Search Results -->
+            <main class="search-results">
+                <div class="search-header">
+                    <div class="search-info">
+                        <h3 id="resultsTitle">Kết quả tìm kiếm</h3>
+                        <p id="resultsCount">Đang tải...</p>
+                    </div>
+                    
+                    <div class="sort-options">
+                        <span class="sort-label">Sắp xếp theo:</span>
+                        <select class="form-select" id="sortBy">
+                            <option value="relevance">Liên quan nhất</option>
+                            <option value="price_asc">Giá: Thấp đến cao</option>
+                            <option value="price_desc">Giá: Cao đến thấp</option>
+                            <option value="name_asc">Tên: A-Z</option>
+                            <option value="name_desc">Tên: Z-A</option>
+                            <option value="popular">Phổ biến nhất</option>
+                            <option value="newest">Mới nhất</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be loaded here -->
+                    <div class="loading" id="loadingProducts">
+                        <div class="no-results-icon">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                        <h3>Đang tải sản phẩm...</h3>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <!-- Pagination will be generated here -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Camera Store</h4>
+                    <p>Đơn vị phân phối camera chính hãng hàng đầu Việt Nam. Cam kết chất lượng và dịch vụ tốt nhất.</p>
+                    <div class="social-links" style="display: flex; gap: 10px; margin-top: 15px;">
+                        <a href="#" class="social-link" style="width: 35px; height: 35px; font-size: 16px;">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" style="width: 35px; height: 35px; font-size: 16px;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" style="width: 35px; height: 35px; font-size: 16px;">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Liên kết nhanh</h4>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">Trang chủ</a>
+                        <a href="#" class="footer-link">Sản phẩm</a>
+                        <a href="#" class="footer-link">Khuyến mãi</a>
+                        <a href="#" class="footer-link">Tin tức</a>
+                        <a href="#" class="footer-link">Về chúng tôi</a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Chính sách</h4>
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">Chính sách bảo mật</a>
+                        <a href="#" class="footer-link">Điều khoản sử dụng</a>
+                        <a href="#" class="footer-link">Chính sách bảo hành</a>
+                        <a href="#" class="footer-link">Chính sách đổi trả</a>
+                        <a href="#" class="footer-link">Chính sách vận chuyển</a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Liên hệ</h4>
+                    <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> 123 ABC, Quận 1, TP.HCM</p>
+                    <p><i class="fas fa-phone" style="margin-right: 10px;"></i> 0123 456 789</p>
+                    <p><i class="fas fa-envelope" style="margin-right: 10px;"></i> contact@camerastore.vn</p>
+                    <p><i class="fas fa-clock" style="margin-right: 10px;"></i> 8:00 - 20:00 (T2 - CN)</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Camera Store. Tất cả các quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Quick View Modal -->
+    <div class="modal" id="quickViewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="quickViewTitle">Xem nhanh sản phẩm</h3>
+                <button class="modal-close" id="closeQuickView">&times;</button>
+            </div>
+            <div class="modal-body" id="quickViewBody">
+                <!-- Product details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample products data (from your database structure)
+        const products = [
+            // Sony products
+            { id: 1, category_id: 1, name: "Sony A6000", price: 18000000, sale_price: null, quantity: 60, thumbnail: "/source/assets/images/products/sony1.png", description: "Sony A6000 - body compact", view_count: 120, is_featured: false, total_sold: 180, rating: 4.5, brand: "Sony" },
+            { id: 2, category_id: 1, name: "Sony A6100", price: 22000000, sale_price: 20000000, quantity: 45, thumbnail: "/source/assets/images/products/sony2.png", description: "Sony A6100 - great for beginners", view_count: 95, is_featured: false, total_sold: 140, rating: 4.2, brand: "Sony" },
+            { id: 3, category_id: 1, name: "Sony A6400", price: 28000000, sale_price: null, quantity: 40, thumbnail: "/source/assets/images/products/sony3.png", description: "Sony A6400 - autofocus", view_count: 110, is_featured: true, total_sold: 160, rating: 4.7, brand: "Sony" },
+            { id: 4, category_id: 1, name: "Sony A6600", price: 35000000, sale_price: 32000000, quantity: 32, thumbnail: "/source/assets/images/products/sony4.png", description: "Sony A6600 - IBIS", view_count: 130, is_featured: true, total_sold: 130, rating: 4.8, brand: "Sony" },
+            
+            // Canon products
+            { id: 11, category_id: 2, name: "Canon EOS R1", price: 72000000, sale_price: 70000000, quantity: 20, thumbnail: "/source/assets/images/products/canon1.png", description: "Canon flagship mirrorless", view_count: 140, is_featured: true, total_sold: 120, rating: 4.9, brand: "Canon" },
+            { id: 12, category_id: 2, name: "Canon EOS R2", price: 45000000, sale_price: null, quantity: 30, thumbnail: "/source/assets/images/products/canon2.png", description: "Canon R2 - fast AF", view_count: 80, is_featured: false, total_sold: 60, rating: 4.3, brand: "Canon" },
+            { id: 13, category_id: 2, name: "Canon EOS R3", price: 65000000, sale_price: 62000000, quantity: 15, thumbnail: "/source/assets/images/products/canon3.png", description: "Canon R3 - sport pro", view_count: 100, is_featured: true, total_sold: 90, rating: 4.8, brand: "Canon" },
+            
+            // Nikon products
+            { id: 21, category_id: 3, name: "Nikon Z30", price: 19000000, sale_price: 18000000, quantity: 50, thumbnail: "/source/assets/images/products/nikon1.png", description: "Nikon Z30 - vlogging", view_count: 140, is_featured: false, total_sold: 120, rating: 4.4, brand: "Nikon" },
+            { id: 22, category_id: 3, name: "Nikon Z50", price: 24000000, sale_price: null, quantity: 40, thumbnail: "/source/assets/images/products/nikon2.png", description: "Nikon Z50 - mirrorless", view_count: 120, is_featured: false, total_sold: 110, rating: 4.5, brand: "Nikon" },
+            { id: 23, category_id: 3, name: "Nikon Z5", price: 33000000, sale_price: 31000000, quantity: 32, thumbnail: "/source/assets/images/products/nikon3.png", description: "Nikon Z5 - fullframe entry", view_count: 150, is_featured: true, total_sold: 140, rating: 4.6, brand: "Nikon" },
+            
+            // Fujifilm products
+            { id: 31, category_id: 4, name: "Fujifilm X-T1", price: 28000000, sale_price: null, quantity: 40, thumbnail: "/source/assets/images/products/fujifilm1.png", description: "Fujifilm X-T1 - classic", view_count: 90, is_featured: false, total_sold: 75, rating: 4.2, brand: "Fujifilm" },
+            { id: 32, category_id: 4, name: "Fujifilm X-T2", price: 31000000, sale_price: 29000000, quantity: 35, thumbnail: "/source/assets/images/products/fujifilm2.png", description: "Fujifilm X-T2 - retro style", view_count: 100, is_featured: false, total_sold: 88, rating: 4.4, brand: "Fujifilm" },
+            { id: 33, category_id: 4, name: "Fujifilm X-T3", price: 36000000, sale_price: null, quantity: 30, thumbnail: "/source/assets/images/products/fujifilm3.png", description: "Fujifilm X-T3 - strong AF", view_count: 160, is_featured: true, total_sold: 140, rating: 4.7, brand: "Fujifilm" },
+            
+            // Leica products
+            { id: 41, category_id: 5, name: "Leica Q1", price: 95000000, sale_price: 92000000, quantity: 10, thumbnail: "/source/assets/images/products/leica1.png", description: "Leica Q1 - premium", view_count: 40, is_featured: true, total_sold: 30, rating: 4.9, brand: "Leica" },
+            { id: 42, category_id: 5, name: "Leica Q2", price: 120000000, sale_price: null, quantity: 8, thumbnail: "/source/assets/images/products/leica2.png", description: "Leica Q2 - iconic", view_count: 50, is_featured: true, total_sold: 40, rating: 4.9, brand: "Leica" },
+            
+            // Lumix products
+            { id: 51, category_id: 6, name: "Lumix GH5", price: 36000000, sale_price: 34000000, quantity: 30, thumbnail: "/source/assets/images/products/lumix1.png", description: "Lumix GH5 - video favorite", view_count: 140, is_featured: false, total_sold: 120, rating: 4.6, brand: "Lumix" },
+            { id: 52, category_id: 6, name: "Lumix GH6", price: 52000000, sale_price: null, quantity: 22, thumbnail: "/source/assets/images/products/lumix2.png", description: "Lumix GH6 - advanced video", view_count: 100, is_featured: true, total_sold: 90, rating: 4.7, brand: "Lumix" },
+            
+            // Pentax products
+            { id: 61, category_id: 7, name: "Pentax K-70", price: 21000000, sale_price: 19000000, quantity: 40, thumbnail: "/source/assets/images/products/pentax1.png", description: "Pentax K-70 - rugged", view_count: 150, is_featured: false, total_sold: 130, rating: 4.3, brand: "Pentax" },
+            { id: 62, category_id: 7, name: "Pentax K-3", price: 26000000, sale_price: null, quantity: 35, thumbnail: "/source/assets/images/products/pentax2.png", description: "Pentax K-3 - APS-C pro", view_count: 120, is_featured: false, total_sold: 120, rating: 4.4, brand: "Pentax" }
+        ];
+
+        // Brands from database
+        const brands = [
+            { id: 1, name: "Sony", product_count: 10 },
+            { id: 2, name: "Canon", product_count: 10 },
+            { id: 3, name: "Nikon", product_count: 10 },
+            { id: 4, name: "Fujifilm", product_count: 10 },
+            { id: 5, name: "Leica", product_count: 10 },
+            { id: 6, name: "Lumix", product_count: 10 },
+            { id: 7, name: "Pentax", product_count: 10 }
+        ];
+
+        // Current search state
+        let currentFilters = {
+            searchQuery: "",
+            selectedBrands: [],
+            minPrice: null,
+            maxPrice: null,
+            inStock: true,
+            onSale: false,
+            featured: false,
+            minRating: 0,
+            sortBy: "relevance",
+            currentPage: 1,
+            itemsPerPage: 12
+        };
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            loadBrandFilters();
+            performSearch();
+            setupMobileMenu();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                currentFilters.searchQuery = e.target.value;
+            });
+
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+
+            // Search button
+            document.getElementById('searchButton').addEventListener('click', performSearch);
+
+            // Price filter
+            document.getElementById('applyPriceFilter').addEventListener('click', function() {
+                const minPrice = document.getElementById('minPrice').value;
+                const maxPrice = document.getElementById('maxPrice').value;
+                
+                currentFilters.minPrice = minPrice ? parseInt(minPrice) : null;
+                currentFilters.maxPrice = maxPrice ? parseInt(maxPrice) : null;
+                
+                performSearch();
+            });
+
+            // Checkbox filters
+            document.getElementById('inStock').addEventListener('change', function() {
+                currentFilters.inStock = this.checked;
+                performSearch();
+            });
+
+            document.getElementById('onSale').addEventListener('change', function() {
+                currentFilters.onSale = this.checked;
+                performSearch();
+            });
+
+            document.getElementById('featured').addEventListener('change', function() {
+                currentFilters.featured = this.checked;
+                performSearch();
+            });
+
+            // Rating filters
+            document.getElementById('rating5').addEventListener('change', updateRatingFilter);
+            document.getElementById('rating4').addEventListener('change', updateRatingFilter);
+            document.getElementById('rating3').addEventListener('change', updateRatingFilter);
+
+            // Sort options
+            document.getElementById('sortBy').addEventListener('change', function() {
+                currentFilters.sortBy = this.value;
+                performSearch();
+            });
+
+            // Reset filters
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+
+            // Clear brands
+            document.getElementById('clearBrands').addEventListener('click', function(e) {
+                e.preventDefault();
+                clearBrandFilters();
+            });
+
+            // Modal close
+            document.getElementById('closeQuickView').addEventListener('click', function() {
+                document.getElementById('quickViewModal').classList.remove('active');
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('quickViewModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        }
+
+        // Setup mobile menu
+        function setupMobileMenu() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                if (navMenu.style.display === 'flex') {
+                    navMenu.style.display = 'none';
+                } else {
+                    navMenu.style.display = 'flex';
+                    navMenu.style.flexDirection = 'column';
+                    navMenu.style.position = 'absolute';
+                    navMenu.style.top = '100%';
+                    navMenu.style.left = '0';
+                    navMenu.style.width = '100%';
+                    navMenu.style.backgroundColor = 'white';
+                    navMenu.style.padding = '20px';
+                    navMenu.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                    navMenu.style.gap = '15px';
+                }
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    navMenu.style.display = 'none';
+                }
+            });
+        }
+
+        // Load brand filters
+        function loadBrandFilters() {
+            const brandFilter = document.getElementById('brandFilter');
+            brandFilter.innerHTML = '';
+            
+            brands.forEach(brand => {
+                const brandCount = products.filter(p => p.brand === brand.name).length;
+                
+                const checkbox = document.createElement('div');
+                checkbox.className = 'filter-checkbox';
+                checkbox.innerHTML = `
+                    <input type="checkbox" id="brand-${brand.id}" data-brand="${brand.name}">
+                    <label for="brand-${brand.id}">${brand.name} <span style="color: var(--gray);">(${brandCount})</span></label>
+                `;
+                
+                brandFilter.appendChild(checkbox);
+                
+                // Add event listener
+                checkbox.querySelector('input').addEventListener('change', function() {
+                    updateBrandFilter(this.dataset.brand, this.checked);
+                });
+            });
+        }
+
+        // Update brand filter
+        function updateBrandFilter(brand, isChecked) {
+            if (isChecked) {
+                if (!currentFilters.selectedBrands.includes(brand)) {
+                    currentFilters.selectedBrands.push(brand);
+                }
+            } else {
+                currentFilters.selectedBrands = currentFilters.selectedBrands.filter(b => b !== brand);
+            }
+            
+            performSearch();
+        }
+
+        // Clear all brand filters
+        function clearBrandFilters() {
+            currentFilters.selectedBrands = [];
+            
+            // Uncheck all brand checkboxes
+            document.querySelectorAll('#brandFilter input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            performSearch();
+        }
+
+        // Update rating filter
+        function updateRatingFilter() {
+            const rating5 = document.getElementById('rating5').checked;
+            const rating4 = document.getElementById('rating4').checked;
+            const rating3 = document.getElementById('rating3').checked;
+            
+            // Determine the minimum rating
+            if (rating5) {
+                currentFilters.minRating = 5;
+            } else if (rating4) {
+                currentFilters.minRating = 4;
+            } else if (rating3) {
+                currentFilters.minRating = 3;
+            } else {
+                currentFilters.minRating = 0;
+            }
+            
+            performSearch();
+        }
+
+        // Reset all filters
+        function resetFilters() {
+            currentFilters = {
+                searchQuery: "",
+                selectedBrands: [],
+                minPrice: null,
+                maxPrice: null,
+                inStock: true,
+                onSale: false,
+                featured: false,
+                minRating: 0,
+                sortBy: "relevance",
+                currentPage: 1,
+                itemsPerPage: 12
+            };
+            
+            // Reset form elements
+            document.getElementById('searchInput').value = "";
+            document.getElementById('minPrice').value = "";
+            document.getElementById('maxPrice').value = "";
+            document.getElementById('inStock').checked = true;
+            document.getElementById('onSale').checked = false;
+            document.getElementById('featured').checked = false;
+            document.getElementById('rating5').checked = false;
+            document.getElementById('rating4').checked = false;
+            document.getElementById('rating3').checked = false;
+            document.getElementById('sortBy').value = "relevance";
+            
+            // Clear brand checkboxes
+            document.querySelectorAll('#brandFilter input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            performSearch();
+        }
+
+        // Perform search
+        function performSearch() {
+            // Show loading
+            document.getElementById('productsGrid').innerHTML = `
+                <div class="loading" id="loadingProducts">
+                    <div class="no-results-icon">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <h3>Đang tải sản phẩm...</h3>
+                </div>
+            `;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const filteredProducts = filterProducts();
+                const sortedProducts = sortProducts(filteredProducts);
+                const paginatedProducts = paginateProducts(sortedProducts);
+                
+                displayResults(paginatedProducts, filteredProducts.length);
+                updatePagination(filteredProducts.length);
+            }, 300);
+        }
+
+        // Filter products based on current filters
+        function filterProducts() {
+            return products.filter(product => {
+                // Search query
+                if (currentFilters.searchQuery) {
+                    const searchLower = currentFilters.searchQuery.toLowerCase();
+                    const nameMatch = product.name.toLowerCase().includes(searchLower);
+                    const descMatch = product.description.toLowerCase().includes(searchLower);
+                    const brandMatch = product.brand.toLowerCase().includes(searchLower);
+                    
+                    if (!nameMatch && !descMatch && !brandMatch) {
+                        return false;
+                    }
+                }
+                
+                // Brand filter
+                if (currentFilters.selectedBrands.length > 0) {
+                    if (!currentFilters.selectedBrands.includes(product.brand)) {
+                        return false;
+                    }
+                }
+                
+                // Price filter
+                if (currentFilters.minPrice !== null && product.price < currentFilters.minPrice) {
+                    return false;
+                }
+                
+                if (currentFilters.maxPrice !== null && product.price > currentFilters.maxPrice) {
+                    return false;
+                }
+                
+                // Stock filter
+                if (currentFilters.inStock && product.quantity <= 0) {
+                    return false;
+                }
+                
+                // Sale filter
+                if (currentFilters.onSale && product.sale_price === null) {
+                    return false;
+                }
+                
+                // Featured filter
+                if (currentFilters.featured && !product.is_featured) {
+                    return false;
+                }
+                
+                // Rating filter
+                if (currentFilters.minRating > 0 && product.rating < currentFilters.minRating) {
+                    return false;
+                }
+                
+                return true;
+            });
+        }
+
+        // Sort products
+        function sortProducts(productsList) {
+            return [...productsList].sort((a, b) => {
+                switch (currentFilters.sortBy) {
+                    case 'price_asc':
+                        return (a.sale_price || a.price) - (b.sale_price || b.price);
+                    case 'price_desc':
+                        return (b.sale_price || b.price) - (a.sale_price || a.price);
+                    case 'name_asc':
+                        return a.name.localeCompare(b.name);
+                    case 'name_desc':
+                        return b.name.localeCompare(a.name);
+                    case 'popular':
+                        return b.total_sold - a.total_sold;
+                    case 'newest':
+                        return b.id - a.id; // Using ID as proxy for newness
+                    case 'relevance':
+                    default:
+                        // For relevance, we could implement more complex logic
+                        // For now, just sort by popularity
+                        return b.total_sold - a.total_sold;
+                }
+            });
+        }
+
+        // Paginate products
+        function paginateProducts(productsList) {
+            const startIndex = (currentFilters.currentPage - 1) * currentFilters.itemsPerPage;
+            const endIndex = startIndex + currentFilters.itemsPerPage;
+            return productsList.slice(startIndex, endIndex);
+        }
+
+        // Display search results
+        function displayResults(productsList, totalCount) {
+            const productsGrid = document.getElementById('productsGrid');
+            
+            if (productsList.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>Không tìm thấy sản phẩm</h3>
+                        <p>Không có sản phẩm nào phù hợp với tiêu chí tìm kiếm của bạn. Vui lòng thử lại với từ khóa hoặc bộ lọc khác.</p>
+                        <button class="btn btn-primary" onclick="resetFilters()">
+                            <i class="fas fa-redo"></i>
+                            Đặt lại bộ lọc
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('resultsTitle').textContent = 'Không tìm thấy sản phẩm';
+                document.getElementById('resultsCount').textContent = '0 sản phẩm';
+                
+                return;
+            }
+            
+            // Update results info
+            const startIndex = (currentFilters.currentPage - 1) * currentFilters.itemsPerPage + 1;
+            const endIndex = Math.min(startIndex + currentFilters.itemsPerPage - 1, totalCount);
+            
+            document.getElementById('resultsTitle').textContent = 'Kết quả tìm kiếm';
+            document.getElementById('resultsCount').textContent = 
+                `Hiển thị ${startIndex}-${endIndex} trong tổng số ${totalCount} sản phẩm`;
+            
+            // Generate products grid
+            let productsHTML = '';
+            
+            productsList.forEach(product => {
+                const currentPrice = product.sale_price || product.price;
+                const hasSale = product.sale_price !== null;
+                
+                // Generate rating stars
+                const fullStars = Math.floor(product.rating);
+                const hasHalfStar = product.rating % 1 >= 0.5;
+                let starsHTML = '';
+                
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= fullStars) {
+                        starsHTML += '<i class="fas fa-star"></i>';
+                    } else if (i === fullStars + 1 && hasHalfStar) {
+                        starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                    } else {
+                        starsHTML += '<i class="far fa-star"></i>';
+                    }
+                }
+                
+                // Determine badge
+                let badgeHTML = '';
+                if (hasSale) {
+                    badgeHTML = '<span class="product-badge sale">Giảm giá</span>';
+                } else if (product.is_featured) {
+                    badgeHTML = '<span class="product-badge featured">Nổi bật</span>';
+                } else if (product.id > 65) { // Simulating new products
+                    badgeHTML = '<span class="product-badge new">Mới</span>';
+                }
+                
+                productsHTML += `
+                    <div class="product-card" data-product-id="${product.id}">
+                        ${badgeHTML}
+                        
+                        <div class="product-image">
+                            <div class="product-image-placeholder">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="product-content">
+                            <span class="product-category">${product.brand}</span>
+                            <h3 class="product-title">${product.name}</h3>
+                            
+                            <div class="product-price">
+                                <span class="current-price">${formatPrice(currentPrice)}</span>
+                                ${hasSale ? `<span class="original-price">${formatPrice(product.price)}</span>` : ''}
+                            </div>
+                            
+                            <div class="product-meta">
+                                <div class="product-stock ${product.quantity > 0 ? 'stock-in' : 'stock-out'}">
+                                    <i class="fas ${product.quantity > 0 ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                    ${product.quantity > 0 ? 'Còn hàng' : 'Hết hàng'}
+                                </div>
+                                <div class="product-rating">
+                                    <span class="rating-stars">${starsHTML}</span>
+                                    <span class="rating-count">${product.rating.toFixed(1)}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="product-actions">
+                                <button class="btn btn-outline btn-sm" onclick="addToCart(${product.id})">
+                                    <i class="fas fa-cart-plus"></i>
+                                    Thêm giỏ
+                                </button>
+                                <button class="btn btn-primary btn-sm" onclick="viewProduct(${product.id})">
+                                    <i class="fas fa-eye"></i>
+                                    Xem nhanh
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            productsGrid.innerHTML = productsHTML;
+        }
+
+        // Update pagination
+        function updatePagination(totalCount) {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(totalCount / currentFilters.itemsPerPage);
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            if (currentFilters.currentPage > 1) {
+                paginationHTML += `
+                    <a href="#" class="page-link" data-page="${currentFilters.currentPage - 1}">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                `;
+            } else {
+                paginationHTML += `
+                    <span class="page-link disabled">
+                        <i class="fas fa-chevron-left"></i>
+                    </span>
+                `;
+            }
+            
+            // Page numbers
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentFilters.currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust if we're near the end
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                if (i === currentFilters.currentPage) {
+                    paginationHTML += `<span class="page-link active">${i}</span>`;
+                } else {
+                    paginationHTML += `<a href="#" class="page-link" data-page="${i}">${i}</a>`;
+                }
+            }
+            
+            // Next button
+            if (currentFilters.currentPage < totalPages) {
+                paginationHTML += `
+                    <a href="#" class="page-link" data-page="${currentFilters.currentPage + 1}">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                `;
+            } else {
+                paginationHTML += `
+                    <span class="page-link disabled">
+                        <i class="fas fa-chevron-right"></i>
+                    </span>
+                `;
+            }
+            
+            pagination.innerHTML = paginationHTML;
+            
+            // Add event listeners to page links
+            pagination.querySelectorAll('a.page-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = parseInt(this.getAttribute('data-page'));
+                    if (!isNaN(page)) {
+                        currentFilters.currentPage = page;
+                        performSearch();
+                        // Scroll to top of results
+                        document.querySelector('.search-results').scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        // View product details
+        function viewProduct(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            const currentPrice = product.sale_price || product.price;
+            const hasSale = product.sale_price !== null;
+            const discountPercent = hasSale ? Math.round((1 - product.sale_price / product.price) * 100) : 0;
+            
+            // Generate rating stars
+            const fullStars = Math.floor(product.rating);
+            const hasHalfStar = product.rating % 1 >= 0.5;
+            let starsHTML = '';
+            
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) {
+                    starsHTML += '<i class="fas fa-star"></i>';
+                } else if (i === fullStars + 1 && hasHalfStar) {
+                    starsHTML += '<i class="fas fa-star-half-alt"></i>';
+                } else {
+                    starsHTML += '<i class="far fa-star"></i>';
+                }
+            }
+            
+            document.getElementById('quickViewTitle').textContent = product.name;
+            document.getElementById('quickViewBody').innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div>
+                        <div class="product-image" style="height: 300px; border-radius: var(--radius); overflow: hidden;">
+                            <div class="product-image-placeholder" style="font-size: 80px;">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="btn btn-primary" style="flex: 1;" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i>
+                                Thêm vào giỏ hàng
+                            </button>
+                            <button class="btn btn-outline" style="flex: 1;">
+                                <i class="fas fa-heart"></i>
+                                Yêu thích
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div style="margin-bottom: 15px;">
+                            <span class="product-category">${product.brand}</span>
+                            ${hasSale ? '<span class="product-badge sale" style="margin-left: 10px;">Giảm ' + discountPercent + '%</span>' : ''}
+                        </div>
+                        
+                        <h2 style="font-size: 24px; margin-bottom: 15px; color: var(--dark);">${product.name}</h2>
+                        
+                        <div class="product-price" style="margin-bottom: 20px;">
+                            <span class="current-price" style="font-size: 28px;">${formatPrice(currentPrice)}</span>
+                            ${hasSale ? `<span class="original-price" style="font-size: 20px;">${formatPrice(product.price)}</span>` : ''}
+                        </div>
+                        
+                        <div class="product-meta" style="margin-bottom: 25px;">
+                            <div class="product-stock ${product.quantity > 0 ? 'stock-in' : 'stock-out'}" style="font-size: 16px;">
+                                <i class="fas ${product.quantity > 0 ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                ${product.quantity > 0 ? 'Còn hàng' : 'Hết hàng'} (${product.quantity} sản phẩm)
+                            </div>
+                            <div class="product-rating">
+                                <span class="rating-stars">${starsHTML}</span>
+                                <span class="rating-count">${product.rating.toFixed(1)}/5 (${product.total_sold} đã bán)</span>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 25px;">
+                            <h4 style="font-size: 16px; margin-bottom: 10px; color: var(--dark);">Mô tả sản phẩm</h4>
+                            <p style="color: var(--gray); line-height: 1.6;">${product.description}</p>
+                        </div>
+                        
+                        <div>
+                            <h4 style="font-size: 16px; margin-bottom: 10px; color: var(--dark);">Thông số kỹ thuật</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: var(--radius);">
+                                    <div style="font-size: 12px; color: var(--gray);">Thương hiệu</div>
+                                    <div style="font-weight: 600;">${product.brand}</div>
+                                </div>
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: var(--radius);">
+                                    <div style="font-size: 12px; color: var(--gray);">Tình trạng</div>
+                                    <div style="font-weight: 600;" class="${product.quantity > 0 ? 'stock-in' : 'stock-out'}">${product.quantity > 0 ? 'Còn hàng' : 'Hết hàng'}</div>
+                                </div>
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: var(--radius);">
+                                    <div style="font-size: 12px; color: var(--gray);">Đánh giá</div>
+                                    <div style="font-weight: 600;">${product.rating.toFixed(1)}/5 sao</div>
+                                </div>
+                                <div style="padding: 10px; background: #f8f9fa; border-radius: var(--radius);">
+                                    <div style="font-size: 12px; color: var(--gray);">Đã bán</div>
+                                    <div style="font-weight: 600;">${product.total_sold} sản phẩm</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('quickViewModal').classList.add('active');
+        }
+
+        // Add to cart function
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            // In a real app, this would add to cart via API
+            showNotification(`Đã thêm "${product.name}" vào giỏ hàng!`, 'success');
+            
+            // Update cart count in header (simulated)
+            updateCartCount();
+        }
+
+        // Update cart count
+        function updateCartCount() {
+            const cartBtn = document.querySelector('.header-actions .btn-primary');
+            const currentText = cartBtn.innerHTML;
+            const match = currentText.match(/Giỏ hàng\s*\((\d+)\)/);
+            
+            if (match) {
+                const currentCount = parseInt(match[1]);
+                cartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Giỏ hàng (' + (currentCount + 1) + ')';
+            } else {
+                cartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Giỏ hàng (1)';
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                background-color: ${type === 'success' ? '#10b981' : '#ef4444'};
+                color: white;
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                z-index: 1001;
+                font-weight: 500;
+                transform: translateX(150%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(150%)';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Format price
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(price);
+        }
+
+        // Make functions available globally
+        window.addToCart = addToCart;
+        window.viewProduct = viewProduct;
+        window.resetFilters = resetFilters;
+    </script>
+</body>
+</html>

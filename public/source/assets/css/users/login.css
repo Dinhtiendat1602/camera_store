@@ -1,0 +1,139 @@
+        /* 1. Thiết lập nền và font chữ */
+        .body_login {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Giả sử ảnh nền là 'login.png' như trong code cũ */
+            background-image: url(/source/images/products/loginvip.png);
+
+            /* --- CẬP NHẬT TẠI ĐÂY --- */
+            /* 1. Kích thước: Đảm bảo ảnh che phủ toàn bộ khu vực */
+            background-size: cover;
+            /* 2. Vị trí: Đặt ảnh nền vào chính giữa */
+            background-position: center;
+            /* 3. Đảm bảo ảnh không lặp lại */
+            background-repeat: no-repeat;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 110vh;
+        }
+
+        /* 2. Container cho Form Đăng Nhập */
+        .login-container {
+            position: absolute;
+            top: 35%;
+            left: 22%;
+            background-color: rgba(255, 255, 255, 0.0);
+            padding: 20px 10px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 650px;
+        }
+
+        /* 3. Tiêu đề */
+        .login-header h2 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-header p {
+            text-align: center;
+            color: #228b2b;
+            margin-top: 0;
+            margin-bottom: 20px;
+            /* Tăng margin bottom cho tiêu đề */
+            font-size: 14px;
+        }
+
+        /* 4. Các ô input (Giống hệt form đăng ký) */
+        .form-group-login {
+            margin-bottom: 10px;
+            /* Điều chỉnh để có khoảng cách tốt hơn */
+        }
+
+        .form-group-login label {
+            display: block;
+            margin-bottom: 6px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .form-control-login {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #de000046;
+            background-color: #100c1537;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-size: 14px;
+            color: #ffffff;
+        }
+
+        .form-control-login:focus {
+            border-color: #764ba2;
+            outline: none;
+        }
+
+        /* Phần tùy chọn: Quên mật khẩu/Ghi nhớ */
+        .form-options-login {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+        }
+
+        .form-options-login a {
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-options-login a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* 5. Nút bấm */
+        .btn-login {
+            /* Đổi tên class thành btn-login */
+            width: 100%;
+            padding: 12px;
+            background: #764ba2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background: #100c15;
+        }
+
+        /* 6. Link chuyển trang */
+        .register-link {
+            /* Đổi tên class thành register-link */
+            margin-top: 25px;
+            text-align: center;
+            font-size: 14px;
+            color: #2401eb;
+        }
+
+        .register-link a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }

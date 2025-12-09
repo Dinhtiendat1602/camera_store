@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng - Kyron Camera</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset và biến */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --light-gray: #f8f9fa;
+            --border: #ddd;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --radius: 8px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .page-header {
+            text-align: center;
+            padding: 40px 0;
+            margin-bottom: 30px;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .page-header h1 i {
+            color: var(--secondary);
+            margin-right: 10px;
+        }
+        
+        .breadcrumb {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Layout chính */
+        .cart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        @media (max-width: 992px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Phần sản phẩm */
+        .cart-items {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .cart-items-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 0.5fr;
+        }
+        
+        .cart-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 0.5fr;
+            padding: 20px;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Thông tin sản phẩm */
+        .item-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .item-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .item-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .item-sku {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .item-price {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .item-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .in-stock {
+            background-color: rgba(39, 174, 96, 0.1);
+            color: var(--success);
+        }
+        
+        .out-of-stock {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--accent);
+        }
+        
+        /* Điều khiển số lượng */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .quantity-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .quantity-btn:hover {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        .quantity-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .quantity-btn:disabled:hover {
+            background: white;
+            color: var(--primary);
+            border-color: var(--border);
+        }
+        
+        .quantity-input {
+            width: 50px;
+            height: 32px;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .quantity-input:disabled {
+            background-color: var(--light-gray);
+            opacity: 0.6;
+        }
+        
+        .item-total {
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+        
+        .item-remove {
+            text-align: center;
+        }
+        
+        .remove-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .remove-btn:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: rotate(90deg);
+        }
+        
+        /* Phần tóm tắt */
+        .cart-summary {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .cart-summary h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .cart-summary h3 i {
+            color: var(--secondary);
+            margin-right: 10px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .summary-row.total {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--border);
+        }
+        
+        /* Mã giảm giá */
+        .coupon-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: var(--radius);
+        }
+        
+        .coupon-section h4 {
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+        
+        .coupon-section h4 i {
+            color: var(--secondary);
+            margin-right: 8px;
+        }
+        
+        .coupon-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .coupon-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .coupon-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .coupon-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        /* Nút hành động */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 15px;
+            text-align: center;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-outline {
+            background-color: white;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--light);
+        }
+        
+        /* Thông tin bảo hành */
+        .warranty-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .warranty-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .warranty-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .warranty-item:hover .warranty-icon {
+            background-color: var(--secondary);
+            color: white;
+            transform: rotate(15deg);
+        }
+        
+        .warranty-text p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .warranty-text strong {
+            display: block;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+        
+        /* Hiệu ứng cộng/trừ số lượng với CSS */
+        .quantity-wrapper {
+            position: relative;
+        }
+        
+        /* Tạo hiệu ứng khi click nút */
+        .quantity-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Tạo hiệu ứng loading giả */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Checkbox ẩn để điều khiển trạng thái */
+        .toggle-checkbox {
+            display: none;
+        }
+        
+        /* Giỏ hàng trống */
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .empty-cart i {
+            font-size: 4rem;
+            color: var(--light-gray);
+            margin-bottom: 20px;
+        }
+        
+        .empty-cart h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .empty-cart p {
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cart-items-header {
+                display: none;
+            }
+            
+            .cart-item {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .item-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .item-image {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .quantity-controls, .item-total, .item-remove {
+                justify-content: center;
+            }
+            
+            .warranty-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Cập nhật số lượng với CSS only */
+        .quantity-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        /* Hiệu ứng số thay đổi */
+        .quantity-change {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: var(--success);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pop 0.3s ease;
+            display: none;
+        }
+        
+        @keyframes pop {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Khi hover vào nút xóa */
+        .remove-btn:active {
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-shopping-cart"></i> Giỏ Hàng Của Bạn</h1>
+            <div class="breadcrumb">
+                <a href="index.html">Trang chủ</a> / <span>Giỏ hàng</span>
+            </div>
+        </div>
+
+        <div class="cart-container">
+            <!-- Phần sản phẩm -->
+            <div class="cart-items">
+                <div class="cart-items-header">
+                    <div>SẢN PHẨM</div>
+                    <div>SỐ LƯỢNG</div>
+                    <div>TỔNG TIỀN</div>
+                    <div></div>
+                </div>
+                
+                <!-- Sản phẩm 1 -->
+                <div class="cart-item">
+                    <div class="item-info">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Canon EOS R5">
+                        </div>
+                        <div class="item-details">
+                            <h3>Canon EOS R5</h3>
+                            <p class="item-sku">Mã SP: CAN-R5-001</p>
+                            <div class="item-price">69.990.000₫</div>
+                            <span class="item-status in-stock">
+                                <i class="fas fa-check-circle"></i> Còn hàng
+                            </span>
+                        </div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('qty1')">-</button>
+                        <input type="number" id="qty1" class="quantity-input" value="1" min="1" max="10" readonly>
+                        <button class="quantity-btn" onclick="increaseQuantity('qty1', 10)">+</button>
+                        <div class="quantity-change" id="change1"></div>
+                    </div>
+                    <div class="item-total" id="total1">69.990.000₫</div>
+                    <div class="item-remove">
+                        <button class="remove-btn" onclick="removeItem(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Sản phẩm 2 -->
+                <div class="cart-item">
+                    <div class="item-info">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Sony A7 IV">
+                        </div>
+                        <div class="item-details">
+                            <h3>Sony A7 IV</h3>
+                            <p class="item-sku">Mã SP: SONY-A7IV-001</p>
+                            <div class="item-price">52.990.000₫</div>
+                            <span class="item-status in-stock">
+                                <i class="fas fa-check-circle"></i> Còn hàng
+                            </span>
+                        </div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" onclick="decreaseQuantity('qty2')">-</button>
+                        <input type="number" id="qty2" class="quantity-input" value="1" min="1" max="5" readonly>
+                        <button class="quantity-btn" onclick="increaseQuantity('qty2', 5)">+</button>
+                        <div class="quantity-change" id="change2"></div>
+                    </div>
+                    <div class="item-total" id="total2">52.990.000₫</div>
+                    <div class="item-remove">
+                        <button class="remove-btn" onclick="removeItem(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Sản phẩm 3 -->
+                <div class="cart-item">
+                    <div class="item-info">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Nikon Z7 II">
+                        </div>
+                        <div class="item-details">
+                            <h3>Nikon Z7 II</h3>
+                            <p class="item-sku">Mã SP: NIK-Z7II-001</p>
+                            <div class="item-price">58.500.000₫</div>
+                            <span class="item-status out-of-stock">
+                                <i class="fas fa-exclamation-circle"></i> Hết hàng
+                            </span>
+                        </div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn" disabled>-</button>
+                        <input type="number" class="quantity-input" value="0" min="0" max="0" disabled>
+                        <button class="quantity-btn" disabled>+</button>
+                    </div>
+                    <div class="item-total">0₫</div>
+                    <div class="item-remove">
+                        <button class="remove-btn" onclick="removeItem(this)" disabled>
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Phần tóm tắt -->
+            <div class="cart-summary">
+                <h3><i class="fas fa-receipt"></i> Tóm Tắt Đơn Hàng</h3>
+                
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Tạm tính:</span>
+                        <span id="subtotal">122.980.000₫</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Phí vận chuyển:</span>
+                        <span id="shipping">Miễn phí</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Giảm giá:</span>
+                        <span id="discount">-6.000.000₫</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Thuế (VAT 10%):</span>
+                        <span id="tax">11.698.000₫</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Tổng thanh toán:</span>
+                        <span id="final-total">128.678.000₫</span>
+                    </div>
+                </div>
+                
+                <div class="coupon-section">
+                    <h4><i class="fas fa-tag"></i> Mã Giảm Giá</h4>
+                    <input type="text" class="coupon-input" placeholder="Nhập mã giảm giá" id="couponCode">
+                    <button class="coupon-btn" onclick="applyCoupon()">Áp dụng mã</button>
+                    <div style="margin-top: 8px; font-size: 0.85rem; color: var(--gray);">
+                        Gợi ý: <span style="color: var(--secondary); cursor: pointer;" onclick="suggestCoupon()">KYRON10</span>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="checkout.html" class="btn btn-primary">
+                        <i class="fas fa-lock"></i> Tiến Hành Thanh Toán
+                    </a>
+                    <a href="products.html" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i> Tiếp Tục Mua Sắm
+                    </a>
+                </div>
+                
+                <div class="warranty-info">
+                    <div class="warranty-item">
+                        <div class="warranty-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="warranty-text">
+                            <strong>Bảo Hành Chính Hãng</strong>
+                            <p>24 tháng toàn quốc</p>
+                        </div>
+                    </div>
+                    <div class="warranty-item">
+                        <div class="warranty-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div class="warranty-text">
+                            <strong>Đổi Trả Dễ Dàng</strong>
+                            <p>Trong 30 ngày</p>
+                        </div>
+                    </div>
+                    <div class="warranty-item">
+                        <div class="warranty-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="warranty-text">
+                            <strong>Giao Hàng Miễn Phí</strong>
+                            <p>Đơn từ 5 triệu</p>
+                        </div>
+                    </div>
+                    <div class="warranty-item">
+                        <div class="warranty-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="warranty-text">
+                            <strong>Hỗ Trợ 24/7</strong>
+                            <p>Hotline: 1900 1234</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hàm giảm số lượng
+        function decreaseQuantity(inputId) {
+            const input = document.getElementById(inputId);
+            let currentValue = parseInt(input.value);
+            const min = parseInt(input.min);
+            
+            if (currentValue > min) {
+                input.value = currentValue - 1;
+                updateCartTotal();
+                
+                // Hiệu ứng thay đổi số
+                showQuantityChange(inputId, '-');
+            }
+        }
+        
+        // Hàm tăng số lượng
+        function increaseQuantity(inputId, max) {
+            const input = document.getElementById(inputId);
+            let currentValue = parseInt(input.value);
+            
+            if (currentValue < max) {
+                input.value = currentValue + 1;
+                updateCartTotal();
+                
+                // Hiệu ứng thay đổi số
+                showQuantityChange(inputId, '+');
+            }
+        }
+        
+        // Hiệu ứng thay đổi số lượng
+        function showQuantityChange(inputId, direction) {
+            const changeElement = document.getElementById('change' + inputId.slice(-1));
+            changeElement.textContent = direction;
+            changeElement.style.display = 'flex';
+            
+            setTimeout(() => {
+                changeElement.style.display = 'none';
+            }, 300);
+        }
+        
+        // Xóa sản phẩm
+        function removeItem(button) {
+            const cartItem = button.closest('.cart-item');
+            if (confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+                cartItem.style.opacity = '0.5';
+                cartItem.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    cartItem.style.display = 'none';
+                    updateCartTotal();
+                    
+                    // Kiểm tra nếu giỏ hàng trống
+                    checkEmptyCart();
+                }, 300);
+            }
+        }
+        
+        // Cập nhật tổng tiền
+        function updateCartTotal() {
+            // Giá sản phẩm
+            const price1 = 69990000;
+            const price2 = 52990000;
+            
+            // Số lượng
+            const qty1 = parseInt(document.getElementById('qty1').value) || 0;
+            const qty2 = parseInt(document.getElementById('qty2').value) || 0;
+            
+            // Tính tổng từng sản phẩm
+            const total1 = price1 * qty1;
+            const total2 = price2 * qty2;
+            
+            // Cập nhật tổng từng sản phẩm
+            document.getElementById('total1').textContent = formatCurrency(total1);
+            document.getElementById('total2').textContent = formatCurrency(total2);
+            
+            // Tính tổng đơn hàng
+            const subtotal = total1 + total2;
+            const discount = 6000000;
+            const tax = Math.round(subtotal * 0.1);
+            const finalTotal = subtotal - discount + tax;
+            
+            // Cập nhật giao diện
+            document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+            document.getElementById('tax').textContent = formatCurrency(tax);
+            document.getElementById('final-total').textContent = formatCurrency(finalTotal);
+        }
+        
+        // Định dạng tiền tệ
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', { 
+                style: 'currency', 
+                currency: 'VND',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+        
+        // Áp dụng mã giảm giá
+        function applyCoupon() {
+            const couponCode = document.getElementById('couponCode').value.trim().toUpperCase();
+            const validCoupons = ['KYRON10', 'KYRON5', 'FREESHIP'];
+            
+            if (!couponCode) {
+                alert('Vui lòng nhập mã giảm giá');
+                return;
+            }
+            
+            if (validCoupons.includes(couponCode)) {
+                const discountElement = document.getElementById('discount');
+                const couponBtn = document.querySelector('.coupon-btn');
+                
+                if (couponCode === 'KYRON10') {
+                    discountElement.textContent = '-10.000.000₫';
+                } else if (couponCode === 'KYRON5') {
+                    discountElement.textContent = '-5.000.000₫';
+                } else if (couponCode === 'FREESHIP') {
+                    discountElement.textContent = '-50.000₫';
+                }
+                
+                couponBtn.textContent = 'Đã áp dụng';
+                couponBtn.style.opacity = '0.7';
+                couponBtn.disabled = true;
+                alert('Áp dụng mã giảm giá thành công!');
+                updateCartTotal();
+            } else {
+                alert('Mã giảm giá không hợp lệ');
+            }
+        }
+        
+        // Gợi ý mã
+        function suggestCoupon() {
+            document.getElementById('couponCode').value = 'KYRON10';
+            alert('Đã điền mã KYRON10 vào ô nhập');
+        }
+        
+        // Kiểm tra giỏ hàng trống
+        function checkEmptyCart() {
+            const cartItems = document.querySelectorAll('.cart-item');
+            let visibleItems = 0;
+            
+            cartItems.forEach(item => {
+                if (item.style.display !== 'none') {
+                    visibleItems++;
+                }
+            });
+            
+            if (visibleItems === 0) {
+                const cartItemsContainer = document.querySelector('.cart-items');
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Giỏ hàng của bạn đang trống</h3>
+                        <p>Hãy thêm sản phẩm vào giỏ hàng để bắt đầu mua sắm</p>
+                        <a href="products.html" class="btn btn-primary" style="width: auto; padding: 15px 30px; display: inline-flex; gap: 10px;">
+                            <i class="fas fa-store"></i> Xem sản phẩm
+                        </a>
+                    </div>
+                `;
+            }
+        }
+        
+        // Khởi tạo giỏ hàng
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartTotal();
+        });
+    </script>
+</body>
+</html>
