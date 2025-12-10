@@ -23,9 +23,6 @@ Route::get('/detail/{id?}', [PageController::class, 'showDetail'])->name('detail
 // cart
 Route::get('/cart', [PageController::class, 'showCart'])->name('cart');
 
-// admin
-Route::get('/admin', [PageController::class, 'showAdmin'])->name('admin');
-
 // logout
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
@@ -40,3 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
     Route::get('/order/success', [PageController::class, 'orderSuccess'])->name('order.success');
 });
+
+// Admin routes
+require __DIR__.'/admin.php';
+
+// Admin access route
+Route::get('/admin', function () {
+    return redirect()->route('admin.dashboard');
+})->middleware(['auth', 'admin']);

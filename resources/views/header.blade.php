@@ -33,6 +33,10 @@
                     <div class="auth-links">
                         @auth
                             <span>Xin chào, {{ Auth::user()->full_name }}</span>
+                            @if(Auth::user()->role === 'admin')
+                                <span>/</span>
+                                <a href="{{ route('admin.dashboard') }}">Admin</a>
+                            @endif
                             <span>/</span>
                             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                                 @csrf

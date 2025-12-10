@@ -8,6 +8,19 @@ class Product extends Model
 {
     protected $table = 'products';
     
+    protected $fillable = [
+        'name',
+        'category_id',
+        'price',
+        'sale_price',
+        'quantity',
+        'thumbnail',
+        'description',
+        'view_count',
+        'is_featured',
+        'total_sold'
+    ];
+    
     public function category()
     {
         return $this->belongsTo(Category::class);
