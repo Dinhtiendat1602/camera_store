@@ -108,7 +108,16 @@ class CartController extends Controller
 
     public function checkout()
     {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để thanh toán!');
+        }
+        
         $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
+        
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('cart')->with('error', 'Giỏ hàng trống!');
+        }
+        
         return view('page.checkout', compact('cartItems'));
     }
 }

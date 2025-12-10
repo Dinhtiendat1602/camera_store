@@ -22,9 +22,4 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
-
-    public function checkout()
-    {
-        return $this->hasOne(Checkout::class);
-    }
 }

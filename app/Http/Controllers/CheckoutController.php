@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Checkout;
 use App\Models\Cart;
 
 class CheckoutController extends Controller
@@ -52,20 +51,6 @@ class CheckoutController extends Controller
             ]);
         }
 
-        // Lưu thông tin checkout
-        Checkout::create([
-            'order_id' => $order->id,
-            'user_id' => Auth::id(),
-            'shipping_full_name' => $request->shipping_full_name,
-            'shipping_email' => $request->shipping_email,
-            'shipping_phone' => $request->shipping_phone,
-            'shipping_address' => $request->shipping_address,
-            'shipping_city' => $request->shipping_city,
-            'shipping_district' => $request->shipping_district,
-            'shipping_ward' => $request->shipping_ward,
-            'payment_method' => $request->payment_method,
-            'total_amount' => $totalAmount
-        ]);
 
         // Xóa giỏ hàng
         Cart::where('user_id', Auth::id())->delete();

@@ -169,10 +169,22 @@
 
                     <div class="action-buttons">
                         @if($product->quantity > 0)
-                        <button type="button" class="btn btn-add-cart" data-product-id="{{ $product->id }}">
+                        @auth
+                        <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="quantity" id="hidden-quantity" value="1">
+                            <button type="submit" class="btn btn-add-cart">
+                                <i class="fas fa-shopping-cart"></i>
+                                Thêm vào giỏ hàng
+                            </button>
+                        </form>
+                        @else
+                        <a href="{{ route('login') }}" class="btn btn-add-cart">
                             <i class="fas fa-shopping-cart"></i>
                             Thêm vào giỏ hàng
-                        </button>
+                        </a>
+                        @endauth
 
                         <a href="{{ route('checkout') }}?product_id={{ $product->id }}&quantity=1" class="btn btn-buy-now">
                             <i class="fas fa-bolt"></i>
@@ -224,14 +236,14 @@
         <!-- Tabs -->
         <div class="product-tabs">
             <div class="tab-headers">
-                <button class="tab-header active" onclick="openTab('description')">
+                <button class="tab-header active" onclick="openTab('description', this)">
                     <i class="fas fa-file-alt"></i> Mô tả chi tiết
                 </button>
-                <button class="tab-header" onclick="openTab('specifications')">
+                <button class="tab-header" onclick="openTab('specifications', this)">
                     <i class="fas fa-microchip"></i> Thông số kỹ thuật
                 </button>
-                <button class="tab-header" onclick="openTab('reviews')">
-                    <i class="fas fa-star"></i> Đánh giá (15)
+                <button class="tab-header" onclick="openTab('reviews', this)">
+                    <i class="fas fa-star"></i> Đánh giá ({{ $product->reviews->count() }})
                 </button>
             </div>
 
@@ -568,50 +580,70 @@
                         }
                     });
 
-                    // Simple tab switching function
-                    function openTab(tabName) {
+                    // Tab switching function
+                    window.openTab = function(tabName, element) {
                         // Hide all tab panels
-                        var tabPanels = document.getElementsByClassName('tab-panel');
-                        for (var i = 0; i < tabPanels.length; i++) {
-                            tabPanels[i].classList.remove('active');
-                        }
+                        const tabPanels = document.querySelectorAll('.tab-panel');
+                        tabPanels.forEach(panel => {
+                            panel.classList.remove('active');
+                        });
 
                         // Remove active class from all tab headers
-                        var tabHeaders = document.getElementsByClassName('tab-header');
-                        for (var i = 0; i < tabHeaders.length; i++) {
-                            tabHeaders[i].classList.remove('active');
-                        }
+                        const tabHeaders = document.querySelectorAll('.tab-header');
+                        tabHeaders.forEach(header => {
+                            header.classList.remove('active');
+                        });
 
                         // Show selected tab panel
-                        document.getElementById(tabName).classList.add('active');
+                        const selectedPanel = document.getElementById(tabName);
+                        if (selectedPanel) {
+                            selectedPanel.classList.add('active');
+                        }
 
                         // Add active class to clicked tab header
-                        event.currentTarget.classList.add('active');
+                        if (element) {
+                            element.classList.add('active');
+                        }
+                        
+                        console.log('Tab switched to:', tabName);
                     }
 
                     // Quantity controls
                     const minusBtn = document.querySelector('.btn-minus');
                     const plusBtn = document.querySelector('.btn-plus');
+                    const quantityInput = document.getElementById('quantity');
+                    const hiddenQuantity = document.getElementById('hidden-quantity');
+
+                    function updateHiddenQuantity() {
+                        if (hiddenQuantity && quantityInput) {
+                            hiddenQuantity.value = quantityInput.value;
+                        }
+                    }
 
                     if (minusBtn) {
                         minusBtn.addEventListener('click', function() {
-                            const input = document.getElementById('quantity');
-                            if (input && parseInt(input.value) > 1) {
-                                input.value = parseInt(input.value) - 1;
+                            if (quantityInput && parseInt(quantityInput.value) > 1) {
+                                quantityInput.value = parseInt(quantityInput.value) - 1;
+                                updateHiddenQuantity();
                             }
                         });
                     }
 
                     if (plusBtn) {
                         plusBtn.addEventListener('click', function() {
-                            const input = document.getElementById('quantity');
-                            if (input) {
-                                const maxQuantity = parseInt(input.getAttribute('max')) || 10;
-                                if (parseInt(input.value) < maxQuantity) {
-                                    input.value = parseInt(input.value) + 1;
+                            if (quantityInput) {
+                                const maxQuantity = parseInt(quantityInput.getAttribute('max')) || 10;
+                                if (parseInt(quantityInput.value) < maxQuantity) {
+                                    quantityInput.value = parseInt(quantityInput.value) + 1;
+                                    updateHiddenQuantity();
                                 }
                             }
                         });
+                    }
+
+                    // Update hidden quantity when input changes directly
+                    if (quantityInput) {
+                        quantityInput.addEventListener('input', updateHiddenQuantity);
                     };
                 });
 </script>
