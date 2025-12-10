@@ -112,4 +112,9 @@ class PageController extends Controller
                     ->take($limit)
                     ->get();
     }
+    
+    public function orderSuccess()
+    {
+        return view('page.order_success');
+    }
 }

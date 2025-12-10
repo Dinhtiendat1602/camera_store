@@ -531,13 +531,32 @@
     font-size: 16px;
     cursor: pointer;
     color: #666;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-header:hover {
+    color: #d32f2f;
+    background: rgba(211, 47, 47, 0.05);
+    transform: translateY(-2px);
 }
 
 .tab-header.active {
     color: #d32f2f;
     border-bottom-color: #d32f2f;
     font-weight: bold;
+    background: rgba(211, 47, 47, 0.08);
+}
+
+.tab-header.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #d32f2f, #ff6b6b);
 }
 
 .tab-content {
@@ -550,6 +569,16 @@
 
 .tab-panel.active {
     display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .product-specs {

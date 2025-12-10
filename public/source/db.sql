@@ -169,53 +169,10 @@ CREATE TABLE order_items (
     price DECIMAL(12,2),
     total DECIMAL(12,2),
     created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
-);
-
--- ====================================================
--- NHÓM 5: CHECKOUT & THANH TOÁN
--- ====================================================
-
--- 11. Bảng Checkout/Thanh toán
-CREATE TABLE checkouts (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    order_id INT NOT NULL,
-    user_id INT NOT NULL,
-    
-    -- Thông tin giao hàng
-    shipping_full_name VARCHAR(150) NOT NULL,
-    shipping_email VARCHAR(150) NOT NULL,
-    shipping_phone VARCHAR(20) NOT NULL,
-    shipping_address TEXT NOT NULL,
-    shipping_city VARCHAR(100),
-    shipping_district VARCHAR(100),
-    shipping_ward VARCHAR(100),
-    
-    -- Phương thức thanh toán
-    payment_method VARCHAR(50) NOT NULL, -- cod, bank_transfer, credit_card, etc.
-    payment_status VARCHAR(50) DEFAULT 'pending', -- pending, paid, failed, refunded
-    
-    -- Thông tin thanh toán (nếu có)
-    transaction_id VARCHAR(100),
-    bank_code VARCHAR(50),
-    card_last_digits VARCHAR(4),
-    
-    -- Phí
-    shipping_fee DECIMAL(10,2) DEFAULT 0,
-    discount_amount DECIMAL(10,2) DEFAULT 0,
-    total_amount DECIMAL(15,2) NOT NULL,
-    
-    -- Thời gian
-    checkout_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    payment_date TIMESTAMP NULL,
-    
-    FOREIGN KEY (order_id) REFERENCES orders(id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    INDEX idx_checkout_order (order_id),
-    INDEX idx_payment_status (payment_status),
-    INDEX idx_transaction_id (transaction_id)
 );
 
 -- ====================================================
@@ -711,13 +668,13 @@ INSERT INTO promotions (code, name, description, discount_type, discount_value, 
 
 -- ORDERS, ORDER_ITEMS, CHECKOUTS (sample 6 orders)
 -- Đã điều chỉnh total_money trong ORDERS để khớp với total_amount trong CHECKOUTS (không tính phí ship và giảm giá) hoặc giá trị ban đầu (nếu không có checkout)
-INSERT INTO orders (id, user_id, order_code, note, total_money, status, created_at) VALUES
-(1,1,'ORD-2025001','Ghi chú 1', 45000000.00, 'completed', NOW()),      -- Sản phẩm 45tr
-(2,2,'ORD-2025002','Ghi chú 2', 28000000.00, 'processing', NOW()),    -- Sản phẩm 28tr
-(3,1,'ORD-2025003','Ghi chú 3', 150000000.00, 'completed', NOW()),    -- Sản phẩm 150tr (Đã fix giá)
-(4,3,'ORD-2025004','Ghi chú 4', 36000000.00, 'pending', NOW()),       -- Sản phẩm 36tr
-(5,4,'ORD-2025005','Ghi chú 5', 15000000.00, 'cancelled', NOW()),     -- Sản phẩm 15tr
-(6,2,'ORD-2025006','Ghi chú 6', 52000000.00, 'completed', NOW());     -- Sản phẩm 52tr (Giá gốc trước giảm giá)
+-- INSERT INTO orders (id, user_id, order_code, note, total_money, status, created_at) VALUES
+-- (1,1,'ORD-2025001','Ghi chú 1', 45000000.00, 'completed', NOW()),      -- Sản phẩm 45tr
+-- (2,2,'ORD-2025002','Ghi chú 2', 28000000.00, 'processing', NOW()),    -- Sản phẩm 28tr
+-- (3,1,'ORD-2025003','Ghi chú 3', 150000000.00, 'completed', NOW()),    -- Sản phẩm 150tr (Đã fix giá)
+-- (4,3,'ORD-2025004','Ghi chú 4', 36000000.00, 'pending', NOW()),       -- Sản phẩm 36tr
+-- (5,4,'ORD-2025005','Ghi chú 5', 15000000.00, 'cancelled', NOW()),     -- Sản phẩm 15tr
+-- (6,2,'ORD-2025006','Ghi chú 6', 52000000.00, 'completed', NOW());     -- Sản phẩm 52tr (Giá gốc trước giảm giá)
 
 INSERT INTO order_items (order_id, product_id, quantity, price) VALUES
 (1,6,1,45000000.00),
@@ -726,15 +683,12 @@ INSERT INTO order_items (order_id, product_id, quantity, price) VALUES
 (4,51,1,36000000.00),
 (5,57,1,15000000.00),
 (6,52,1,52000000.00);
-
-INSERT INTO checkouts (order_id, user_id, shipping_full_name, shipping_email, shipping_phone, shipping_address, shipping_city, shipping_district, shipping_ward, payment_method, payment_status, transaction_id, bank_code, card_last_digits, shipping_fee, discount_amount, total_amount, checkout_date, payment_date) VALUES
-(1,1,'Nguyen Van A','nva@example.com','0912345678','123 Le Loi, Hanoi','Hanoi','Hoan Kiem','Ward 1','credit_card','paid','TXN001','VCB','1234',15000.00,0.00,45015000.00,NOW(),NOW()),             -- 45,000,000 + 15,000 = 45,015,000
-(2,2,'Tran Thi B','ttb@example.com','0987654321','456 Hai Phong, Da Nang','Da Nang','Hai Chau','Ward 2','bank_transfer','pending',NULL,'TCB',NULL,20000.00,0.00,28020000.00,NOW(),NULL),           -- 28,000,000 + 20,000 = 28,020,000
-(3,1,'Nguyen Van A','nva@example.com','0912345678','123 Le Loi, Hanoi','Hanoi','Hoan Kiem','Ward 1','cod','paid','TXN003','',NULL,0.00,0.00,150000000.00,NOW(),NOW()),                             -- 150,000,000 + 0 = 150,000,000
-(4,3,'Le Van C','lvc@example.com','0900111222','789 Nguyen Trai, HCM','Ho Chi Minh','District 1','Ward 3','credit_card','failed','TXN004','VCB','4321',30000.00,0.00,36030000.00,NOW(),NULL),       -- 36,000,000 + 30,000 = 36,030,000
-(5,4,'Pham Thi D','ptd@example.com','0933999888','12 Tran Phu, HP','Hai Phong','Ngo Quyen','Ward 4','cod','cancelled',NULL,'',NULL,0.00,0.00,15000000.00,NOW(),NULL),                           -- 15,000,000 + 0 = 15,000,000
-(6,2,'Tran Thi B','ttb@example.com','0987654321','456 Hai Phong, Da Nang','Da Nang','Hai Chau','Ward 2','credit_card','paid','TXN006','VCB','9876',25000.00,100000.00,51925000.00,NOW(),NOW());     -- 52,000,000 - 100,000 + 25,000 = 51,925,000 (Đã fix total_amount: 51950000.00 -> 51925000.00)
-
 SET FOREIGN_KEY_CHECKS=1;
 
 -- End of fixed seed file
+
+-- truy vấn 
+-- giảm giá cho các sản phẩm nnổibaatj
+UPDATE products
+SET sale_price = price - (price * 15 / 100)
+WHERE is_featured = 1;
