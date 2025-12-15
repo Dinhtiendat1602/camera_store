@@ -170,13 +170,13 @@
                     <div class="action-buttons">
                         @if($product->quantity > 0)
                         @auth
-                        <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
+                        <form id="add-to-cart-form" style="display: inline;">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="quantity" id="hidden-quantity" value="1">
-                            <button type="submit" class="btn btn-add-cart">
+                            <button type="button" id="add-to-cart-btn" class="btn btn-add-cart">
                                 <i class="fas fa-shopping-cart"></i>
-                                Thêm vào giỏ hàng
+                                <span class="btn-text">Thêm vào giỏ hàng</span>
                             </button>
                         </form>
                         @else
@@ -644,7 +644,114 @@
                     // Update hidden quantity when input changes directly
                     if (quantityInput) {
                         quantityInput.addEventListener('input', updateHiddenQuantity);
-                    };
+                    }
+
+                    // AJAX Add to Cart
+                    const addToCartBtn = document.getElementById('add-to-cart-btn');
+                    const addToCartForm = document.getElementById('add-to-cart-form');
+                    
+                    if (addToCartBtn && addToCartForm) {
+                        addToCartBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            
+                            const btnText = this.querySelector('.btn-text');
+                            const btnIcon = this.querySelector('i');
+                            const originalText = btnText.textContent;
+                            
+                            // Disable button and show loading
+                            this.disabled = true;
+                            btnIcon.className = 'fas fa-spinner fa-spin';
+                            btnText.textContent = 'Đang thêm...';
+                            
+                            const formData = new FormData(addToCartForm);
+                            
+                            fetch('{{ route("cart.add") }}', {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    // Success feedback
+                                    btnIcon.className = 'fas fa-check';
+                                    btnText.textContent = 'Đã thêm!';
+                                    this.style.backgroundColor = '#28a745';
+                                    
+                                    // Show success notification
+                                    showNotification('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+                                    
+                                    // Update cart count if exists
+                                    updateCartCount();
+                                    
+                                    // Reset button after 2 seconds
+                                    setTimeout(() => {
+                                        btnIcon.className = 'fas fa-shopping-cart';
+                                        btnText.textContent = originalText;
+                                        this.style.backgroundColor = '';
+                                        this.disabled = false;
+                                    }, 2000);
+                                } else {
+                                    throw new Error(data.message || 'Có lỗi xảy ra');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                
+                                // Error feedback
+                                btnIcon.className = 'fas fa-exclamation-triangle';
+                                btnText.textContent = 'Lỗi!';
+                                this.style.backgroundColor = '#dc3545';
+                                
+                                showNotification(error.message || 'Có lỗi xảy ra khi thêm vào giỏ hàng', 'error');
+                                
+                                // Reset button after 2 seconds
+                                setTimeout(() => {
+                                    btnIcon.className = 'fas fa-shopping-cart';
+                                    btnText.textContent = originalText;
+                                    this.style.backgroundColor = '';
+                                    this.disabled = false;
+                                }, 2000);
+                            });
+                        });
+                    }
+                    
+                    // Notification function
+                    function showNotification(message, type = 'success') {
+                        const notification = document.createElement('div');
+                        notification.className = `notification ${type}`;
+                        notification.innerHTML = `
+                            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                            <span>${message}</span>
+                        `;
+                        
+                        document.body.appendChild(notification);
+                        
+                        // Show notification
+                        setTimeout(() => notification.classList.add('show'), 100);
+                        
+                        // Hide notification after 3 seconds
+                        setTimeout(() => {
+                            notification.classList.remove('show');
+                            setTimeout(() => notification.remove(), 300);
+                        }, 3000);
+                    }
+                    
+                    // Update cart count function
+                    function updateCartCount() {
+                        fetch('/cart/count')
+                            .then(response => response.json())
+                            .then(data => {
+                                const cartCountElements = document.querySelectorAll('.cart-count');
+                                cartCountElements.forEach(element => {
+                                    element.textContent = data.count || 0;
+                                });
+                            })
+                            .catch(error => console.error('Error updating cart count:', error));
+                    }
                 });
 </script>
 @endsection

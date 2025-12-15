@@ -93,7 +93,15 @@
         </div>
         
         @if(isset($products) && method_exists($products, 'links'))
-            {{ $products->links() }}
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted">
+                    Hiển thị {{ $products->firstItem() ?? 0 }} - {{ $products->lastItem() ?? 0 }} 
+                    trong tổng số {{ $products->total() ?? 0 }} sản phẩm
+                </div>
+                <div>
+                    {{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
+                </div>
+            </div>
         @endif
     </div>
 </div>

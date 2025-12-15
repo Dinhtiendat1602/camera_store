@@ -12,40 +12,35 @@ class CartController extends Controller
 {
     public function addToCart(Request $request)
     {
-        if (!Auth::check()) {
-            if (request()->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng. Đang chuyển hướng...',
-                    'redirect' => route('login')
-                ]);
+        try {
+            if (!Auth::check()) {
+                if ($request->ajax() || $request->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng.',
+                        'redirect' => route('login')
+                    ]);
+                }
+                return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để thêm vào giỏ hàng!');
             }
-            return redirect()->route('login')->with('error', 'Vui lòng đăng nhập để thêm vào giỏ hàng!');
-        }
 
-        $productId = $request->product_id;
-        $quantity = $request->quantity ?? 1;
+            $productId = $request->input('product_id');
+            $quantity = $request->input('quantity', 1);
+            
+            if (!$productId) {
+                if ($request->ajax() || $request->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Thiếu thông tin sản phẩm!'
+                    ]);
+                }
+                return redirect()->back()->with('error', 'Thiếu thông tin sản phẩm!');
+            }
 
-        $product = Product::findOrFail($productId);
+            $product = Product::findOrFail($productId);
         
-        if ($product->quantity < $quantity) {
-            if (request()->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Số lượng sản phẩm không đủ!'
-                ]);
-            }
-            return redirect()->back()->with('error', 'Số lượng sản phẩm không đủ!');
-        }
-
-        $existingCart = Cart::where('user_id', Auth::id())
-                           ->where('product_id', $productId)
-                           ->first();
-
-        if ($existingCart) {
-            $newQuantity = $existingCart->quantity + $quantity;
-            if ($product->quantity < $newQuantity) {
-                if (request()->ajax()) {
+            if ($product->quantity < $quantity) {
+                if ($request->ajax() || $request->wantsJson()) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Số lượng sản phẩm không đủ!'
@@ -53,28 +48,53 @@ class CartController extends Controller
                 }
                 return redirect()->back()->with('error', 'Số lượng sản phẩm không đủ!');
             }
-            $existingCart->quantity = $newQuantity;
-            $existingCart->save();
-        } else {
-            Cart::create([
-                'user_id' => Auth::id(),
-                'product_id' => $productId,
-                'quantity' => $quantity
-            ]);
-        }
 
-        // Tính tổng số lượng trong giỏ hàng
-        $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
-        
-        if (request()->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Đã thêm vào giỏ hàng!',
-                'cartCount' => $cartCount
-            ]);
+            $existingCart = Cart::where('user_id', Auth::id())
+                               ->where('product_id', $productId)
+                               ->first();
+
+            if ($existingCart) {
+                $newQuantity = $existingCart->quantity + $quantity;
+                if ($product->quantity < $newQuantity) {
+                    if ($request->ajax() || $request->wantsJson()) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Số lượng sản phẩm không đủ!'
+                        ]);
+                    }
+                    return redirect()->back()->with('error', 'Số lượng sản phẩm không đủ!');
+                }
+                $existingCart->quantity = $newQuantity;
+                $existingCart->save();
+            } else {
+                Cart::create([
+                    'user_id' => Auth::id(),
+                    'product_id' => $productId,
+                    'quantity' => $quantity
+                ]);
+            }
+
+            // Tính tổng số lượng trong giỏ hàng
+            $cartCount = Cart::where('user_id', Auth::id())->sum('quantity');
+            
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Đã thêm vào giỏ hàng!',
+                    'cartCount' => $cartCount
+                ]);
+            }
+            
+            return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng!')->withFragment('product-' . $productId);
+        } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+                ], 500);
+            }
+            return redirect()->back()->with('error', 'Có lỗi xảy ra!');
         }
-        
-        return redirect()->back()->with('success', 'Đã thêm vào giỏ hàng!')->withFragment('product-' . $productId);
     }
 
     public function updateCart(Request $request)
@@ -119,5 +139,15 @@ class CartController extends Controller
         }
         
         return view('page.checkout', compact('cartItems'));
+    }
+    
+    public function getCartCount()
+    {
+        if (!Auth::check()) {
+            return response()->json(['count' => 0]);
+        }
+        
+        $count = Cart::where('user_id', Auth::id())->sum('quantity');
+        return response()->json(['count' => $count]);
     }
 }

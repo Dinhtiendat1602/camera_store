@@ -11,10 +11,15 @@
             <img src="{{ asset('source/images/slide/' . $sl->image) }}"
                 alt="">
             <div class="slide-content">
+                <div class="brand-intro">
+                    <span class="brand-label">Chào mừng đến với</span>
+                    <h1 class="brand-name-hero">KYRON</h1>
+                    <span class="brand-subtitle">Camera Store</span>
+                </div>
                 <h2 class="slide-title">Máy Ảnh Chuyên Nghiệp</h2>
                 <p class="slide-description">Khám phá bộ sưu tập máy ảnh mirrorless và DSLR từ các thương hiệu hàng
                     đầu thế giới với công nghệ tiên tiến nhất.</p>
-                <a href="products.html" class="btn btn-primary">Khám phá ngay</a>
+                <a href="{{ route('categories') }}" class="btn btn-primary">Khám phá ngay</a>
             </div>
         </div>
         @endforeach
@@ -52,11 +57,14 @@
                     <img src="{{ asset('source/images/products/' . $product->thumbnail) }}" alt="{{ $product->name }}">
                     <div class="product-overlay">
                         <a href="{{ route('detail', $product->id) }}" class="btn btn-secondary">Xem chi tiết</a>
-                        <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
+                        <form class="add-to-cart-form" data-product-id="{{ $product->id }}" style="display: inline;">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-primary">Thêm vào giỏ</button>
+                            <button type="button" class="btn btn-primary add-to-cart-btn">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="btn-text">Thêm vào giỏ</span>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -91,11 +99,14 @@
                     <img src="/source/images/products/{{ $product->thumbnail }}" alt="{{ $product->name }}">
                     <div class="product-overlay">
                         <a href="{{ route('detail', $product->id) }}" class="btn btn-secondary">Xem chi tiết</a>
-                        <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
+                        <form class="add-to-cart-form" data-product-id="{{ $product->id }}" style="display: inline;">
                             @csrf
                             <input type="hidden" name="product_id" value="{{ $product->id }}">
                             <input type="hidden" name="quantity" value="1">
-                            <button type="submit" class="btn btn-primary">Thêm vào giỏ</button>
+                            <button type="button" class="btn btn-primary add-to-cart-btn">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="btn-text">Thêm vào giỏ</span>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -396,7 +407,8 @@
             </div>
         </div>
     </section>
-<script>
+
+    <script>
     // Slider JavaScript
     document.addEventListener('DOMContentLoaded', function() {
         const slider = document.querySelector('.slider');
@@ -491,10 +503,100 @@
         // Initialize the slider
         initSlider();
 
-        // Removed add to cart JavaScript - now using PHP forms
+        // AJAX Add to Cart for Home Page
+        const addToCartForms = document.querySelectorAll('.add-to-cart-form');
+        
+        addToCartForms.forEach(form => {
+            const btn = form.querySelector('.add-to-cart-btn');
+            
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const btnText = this.querySelector('.btn-text');
+                const btnIcon = this.querySelector('i');
+                const originalText = btnText.textContent;
+                
+                // Disable button and show loading
+                this.disabled = true;
+                btnIcon.className = 'fas fa-spinner fa-spin';
+                btnText.textContent = 'Đang thêm...';
+                
+                const formData = new FormData(form);
+                
+                fetch('{{ route("cart.add") }}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Success feedback
+                        btnIcon.className = 'fas fa-check';
+                        btnText.textContent = 'Đã thêm!';
+                        this.style.backgroundColor = '#28a745';
+                        
+                        // Show success notification
+                        showNotification('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+                        
+                        // Reset button after 2 seconds
+                        setTimeout(() => {
+                            btnIcon.className = 'fas fa-shopping-cart';
+                            btnText.textContent = originalText;
+                            this.style.backgroundColor = '';
+                            this.disabled = false;
+                        }, 2000);
+                    } else {
+                        throw new Error(data.message || 'Có lỗi xảy ra');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                    // Error feedback
+                    btnIcon.className = 'fas fa-exclamation-triangle';
+                    btnText.textContent = 'Lỗi!';
+                    this.style.backgroundColor = '#dc3545';
+                    
+                    showNotification(error.message || 'Có lỗi xảy ra khi thêm vào giỏ hàng', 'error');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        btnIcon.className = 'fas fa-shopping-cart';
+                        btnText.textContent = originalText;
+                        this.style.backgroundColor = '';
+                        this.disabled = false;
+                    }, 2000);
+                });
+            });
+        });
+        
+        // Notification function
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
     });
-</script>
-  <script>
+
+    // Brand selection functionality
         document.addEventListener('DOMContentLoaded', function() {
             const brandCards = document.querySelectorAll('.brand-card');
             const brandInfos = document.querySelectorAll('.brand-info');
@@ -520,59 +622,6 @@
                     const targetInfo = document.getElementById(`${selectedBrand}-info`);
                     if (targetInfo) {
                         targetInfo.classList.add('active');
-                    }
-                });
-            });
-            
-            // Xử lý nút so sánh
-            document.querySelector('.compare-action').addEventListener('click', function() {
-                const activeCard = document.querySelector('.brand-card.active');
-                const activeBrand = activeCard.getAttribute('data-brand');
-                
-                let brandNames = {
-                    'sony': 'Sony',
-                    'fujifilm': 'Fujifilm', 
-                    'nikon': 'Nikon',
-                    'canon': 'Canon'
-                };
-                
-                alert(`Bạn đang xem thông tin về ${brandNames[activeBrand]}. Chúng tôi sẽ hiển thị bảng so sánh chi tiết giữa ${brandNames[activeBrand]} với các hãng khác.`);
-                
-                // Trong thực tế, bạn có thể hiển thị modal so sánh
-                // showComparisonModal(activeBrand);
-            });
-            
-            // Xử lý nút tư vấn
-            document.querySelector('.expert-action').addEventListener('click', function() {
-                const activeCard = document.querySelector('.brand-card.active');
-                const activeBrand = activeCard.getAttribute('data-brand');
-                
-                let brandNames = {
-                    'sony': 'Sony',
-                    'fujifilm': 'Fujifilm', 
-                    'nikon': 'Nikon',
-                    'canon': 'Canon'
-                };
-                
-                alert(`Bạn quan tâm đến máy ảnh ${brandNames[activeBrand]}? Chuyên gia của chúng tôi sẽ liên hệ tư vấn cho bạn trong vòng 30 phút.\n\nVui lòng để lại thông tin liên hệ hoặc gọi hotline: 1800 1234`);
-                
-                // Trong thực tế, bạn có thể hiển thị form liên hệ
-                // showContactForm(activeBrand);
-            });
-            
-            // Thêm hiệu ứng hover cho các brand card
-            brandCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    if (!this.classList.contains('active')) {
-                        this.style.transform = 'translateY(-8px)';
-                        this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.1)';
-                    }
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    if (!this.classList.contains('active')) {
-                        this.style.transform = 'translateY(0)';
-                        this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.05)';
                     }
                 });
             });

@@ -257,15 +257,19 @@ class AdminController extends Controller
 
     public function updateOrderStatus(Request $request, $id)
     {
-        $order = Order::findOrFail($id);
-        
-        $request->validate([
-            'status' => 'required|in:pending,processing,completed,cancelled',
-        ]);
-        
-        $order->update(['status' => $request->status]);
-        
-        return response()->json(['success' => true, 'message' => 'Cập nhật trạng thái thành công!']);
+        try {
+            $order = Order::findOrFail($id);
+            
+            $request->validate([
+                'status' => 'required|in:pending,confirmed,shipping,completed,cancelled',
+            ]);
+            
+            $order->update(['status' => $request->status]);
+            
+            return response()->json(['success' => true, 'message' => 'Cập nhật trạng thái thành công!']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()], 500);
+        }
     }
 
     public function destroyOrder($id)

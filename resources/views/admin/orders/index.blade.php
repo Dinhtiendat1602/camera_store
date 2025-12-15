@@ -3,6 +3,8 @@
 @section('title', 'Quản lý đơn hàng')
 @section('page-title', 'Quản lý đơn hàng')
 
+
+
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div>
@@ -41,30 +43,31 @@
                 </thead>
                 <tbody>
                     @forelse($orders ?? [] as $order)
+                    @if($order)
                     <tr>
                         <td>
-                            <strong>{{ $order->order_code }}</strong>
+                            <strong>{{ $order->order_code ?? 'N/A' }}</strong>
                         </td>
-                        <td>{{ $order->customer_name }}</td>
-                        <td>{{ $order->customer_email }}</td>
-                        <td>{{ $order->customer_phone }}</td>
-                        <td class="text-danger fw-bold">{{ number_format($order->total_amount) }}₫</td>
+                        <td>{{ $order->customer_name ?? 'N/A' }}</td>
+                        <td>{{ $order->customer_email ?? 'N/A' }}</td>
+                        <td>{{ $order->customer_phone ?? 'N/A' }}</td>
+                        <td class="text-danger fw-bold">{{ number_format($order->total_amount ?? 0) }}₫</td>
                         <td>
-                            <select class="form-select form-select-sm status-select" data-order-id="{{ $order->id }}">
-                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Chờ xử lý</option>
-                                <option value="confirmed" {{ $order->status == 'confirmed' ? 'selected' : '' }}>Đã xác nhận</option>
-                                <option value="shipping" {{ $order->status == 'shipping' ? 'selected' : '' }}>Đang giao</option>
-                                <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Hoàn thành</option>
-                                <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
+                            <select class="form-select form-select-sm status-select" data-order-id="{{ $order->id ?? '' }}">
+                                <option value="pending" {{ ($order->status ?? '') == 'pending' ? 'selected' : '' }}>Chờ xử lý</option>
+                                <option value="confirmed" {{ ($order->status ?? '') == 'confirmed' ? 'selected' : '' }}>Đã xác nhận</option>
+                                <option value="shipping" {{ ($order->status ?? '') == 'shipping' ? 'selected' : '' }}>Đang giao</option>
+                                <option value="completed" {{ ($order->status ?? '') == 'completed' ? 'selected' : '' }}>Hoàn thành</option>
+                                <option value="cancelled" {{ ($order->status ?? '') == 'cancelled' ? 'selected' : '' }}>Đã hủy</option>
                             </select>
                         </td>
-                        <td>{{ $order->created_at ? $order->created_at->format('d/m/Y H:i') : 'N/A' }}</td>
+                        <td>{{ $order->created_at && method_exists($order->created_at, 'format') ? $order->created_at->format('d/m/Y H:i') : 'N/A' }}</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('admin.orders.show', $order->id ?? 0) }}" class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <form method="POST" action="{{ route('admin.orders.destroy', $order->id) }}" style="display: inline;">
+                                <form method="POST" action="{{ route('admin.orders.destroy', $order->id ?? 0) }}" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')">
@@ -74,6 +77,7 @@
                             </div>
                         </td>
                     </tr>
+                    @endif
                     @empty
                     <tr>
                         <td colspan="8" class="text-center">Không có đơn hàng nào</td>
@@ -96,36 +100,72 @@ document.addEventListener('DOMContentLoaded', function() {
     const statusSelects = document.querySelectorAll('.status-select');
     
     statusSelects.forEach(select => {
+        // Store original value for rollback
+        select.dataset.originalValue = select.value;
+        
         select.addEventListener('change', function() {
             const orderId = this.dataset.orderId;
             const newStatus = this.value;
             
-            fetch(`/admin/orders/${orderId}/status`, {
+            if (!orderId || !newStatus) {
+                alert('Dữ liệu không hợp lệ');
+                return;
+            }
+            
+            const csrfToken = '{{ csrf_token() }}';
+            
+            if (!csrfToken) {
+                alert('Lỗi bảo mật: Không tìm thấy CSRF token');
+                return;
+            }
+            
+            fetch(`/admin/orders/${orderId}/update-status`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-TOKEN': csrfToken
                 },
-                body: JSON.stringify({
-                    status: newStatus
-                })
+                body: `status=${newStatus}&_token=${csrfToken}`
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json();
+                } else {
+                    return response.text().then(text => {
+                        throw new Error('Server returned HTML instead of JSON: ' + text.substring(0, 100));
+                    });
+                }
+            })
             .then(data => {
                 if (data.success) {
                     // Show success message
                     const alert = document.createElement('div');
                     alert.className = 'alert alert-success alert-dismissible fade show';
-                    alert.innerHTML = `
-                        ${data.message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    `;
-                    document.querySelector('main').insertBefore(alert, document.querySelector('main').firstChild);
+                    alert.textContent = data.message || 'Cập nhật thành công';
+                    
+                    const closeBtn = document.createElement('button');
+                    closeBtn.type = 'button';
+                    closeBtn.className = 'btn-close';
+                    closeBtn.setAttribute('data-bs-dismiss', 'alert');
+                    alert.appendChild(closeBtn);
+                    
+                    const mainElement = document.querySelector('main');
+                    if (mainElement) {
+                        mainElement.insertBefore(alert, mainElement.firstChild);
+                    }
+                } else {
+                    alert('Cập nhật thất bại: ' + (data.message || 'Lỗi không xác định'));
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Có lỗi xảy ra khi cập nhật trạng thái');
+                alert('Có lỗi xảy ra khi cập nhật trạng thái: ' + error.message);
+                // Reset select to original value
+                this.value = this.dataset.originalValue || 'pending';
             });
         });
     });
