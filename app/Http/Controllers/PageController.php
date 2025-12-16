@@ -63,7 +63,8 @@ class PageController extends Controller
         $product = Product::with(['category', 'reviews', 'specifications'])->findOrFail($id);
         
         // Tăng view count
-        $product->increment('view_count');
+        $product->view_count += 1;
+        $product->save();
         
         // Lấy sản phẩm liên quan cùng danh mục
         $relatedProducts = $this->getProductsByCategory($product->category_id, $product->id, 8);
@@ -113,8 +114,14 @@ class PageController extends Controller
                     ->get();
     }
     
-    public function orderSuccess()
+    public function orderSuccess(Request $request)
     {
-        return view('page.order_success');
+        $order = null;
+        if ($request->session()->has('order_id')) {
+            $orderId = $request->session()->get('order_id');
+            $order = Order::with('orderItems.product')->find($orderId);
+        }
+        
+        return view('page.order_success', compact('order'));
     }
 }

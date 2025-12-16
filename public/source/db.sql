@@ -686,9 +686,14 @@ INSERT INTO order_items (order_id, product_id, quantity, price) VALUES
 SET FOREIGN_KEY_CHECKS=1;
 
 -- End of fixed seed file
-
+use camera_store;
 -- truy vấn 
 -- giảm giá cho các sản phẩm nnổibaatj
 UPDATE products
 SET sale_price = price - (price * 15 / 100)
 WHERE is_featured = 1;
+-- Thêm cột update_at vào table users
+
+ALTER TABLE users
+ADD updated_at TIMESTAMP NULL DEFAULT NULL;
+

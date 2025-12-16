@@ -129,9 +129,9 @@
                         <tbody>
                             @forelse($low_stock_products ?? [] as $product)
                             <tr>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ $product->brand }}</td>
-                                <td>{{ $product->quantity }}</td>
+                                <td>{{ $product->name ?? 'N/A' }}</td>
+                                <td>{{ $product->brand ?? 'N/A' }}</td>
+                                <td>{{ $product->quantity ?? 0 }}</td>
                             </tr>
                             @empty
                             <tr>

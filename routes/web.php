@@ -26,6 +26,13 @@ Route::get('/cart', [PageController::class, 'showCart'])->name('cart');
 // logout
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+// Profile routes - yêu cầu đăng nhập
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [UserController::class, 'showProfile'])->name('profile');
+    Route::get('/profile/orders', [UserController::class, 'showOrders'])->name('profile.orders');
+    Route::get('/profile/orders/{id}', [UserController::class, 'showOrderDetail'])->name('profile.order.detail');
+});
+
 // cart routes
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');

@@ -38,7 +38,7 @@
                                             <li><a href="{{ route('categories', ['category_id' => 7]) }}"><i class="fas fa-aperture"></i> Pentax</a></li>
                                         </ul>
                                     </div>
-                                    <div class="menu-column">
+                                    <!-- <div class="menu-column">
                                         <h4>Phụ kiện</h4>
                                         <ul>
                                             <li><a href="#"><i class="fas fa-circle"></i> Ống kính</a></li>
@@ -46,7 +46,7 @@
                                             <li><a href="#"><i class="fas fa-sd-card"></i> Thẻ nhớ</a></li>
                                             <li><a href="#"><i class="fas fa-camera-retro"></i> Túi đựng</a></li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </li>
@@ -95,10 +95,10 @@
                                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                                     </div>
                                     <div class="user-menu">
-                                        <a href="#" class="user-menu-item">
+                                        <a href="{{ route('profile') }}" class="user-menu-item">
                                             <i class="fas fa-user"></i> Thông tin cá nhân
                                         </a>
-                                        <a href="#" class="user-menu-item">
+                                        <a href="{{ route('profile.orders') }}" class="user-menu-item">
                                             <i class="fas fa-box"></i> Đơn hàng của tôi
                                         </a>
                                         @if(Auth::user()->role === 'admin')

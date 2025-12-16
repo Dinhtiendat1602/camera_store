@@ -93,7 +93,7 @@
 
                     <div class="mb-3">
                         <label for="thumbnail" class="form-label">Hình ảnh</label>
-                        @if(isset($product->thumbnail))
+                                                @if(isset($product) && isset($product->thumbnail))
                             <div class="mb-2">
                                 <img src="{{ asset('source/images/products/' . $product->thumbnail) }}" 
                                      alt="{{ $product->name }}" style="width: 100px; height: 100px; object-fit: cover;">

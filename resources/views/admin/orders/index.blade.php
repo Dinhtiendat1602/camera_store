@@ -43,7 +43,7 @@
                 </thead>
                 <tbody>
                     @forelse($orders ?? [] as $order)
-                    @if($order)
+                    @if(isset($order) && is_object($order))
                     <tr>
                         <td>
                             <strong>{{ $order->order_code ?? 'N/A' }}</strong>

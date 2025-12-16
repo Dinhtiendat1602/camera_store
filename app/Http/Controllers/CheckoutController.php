@@ -55,6 +55,7 @@ class CheckoutController extends Controller
         // Xóa giỏ hàng
         Cart::where('user_id', Auth::id())->delete();
 
-        return redirect()->route('order.success')->with('success', 'Đặt hàng thành công!');
+        // Truyền thông tin đơn hàng đến trang thành công
+        return redirect()->route('order.success')->with('success', 'Đặt hàng thành công!')->with('order_id', $order->id);
     }
 }

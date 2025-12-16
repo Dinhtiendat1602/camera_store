@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -57,5 +58,37 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect()->route('home')->with('success', 'Đăng xuất thành công!');
+    }
+    
+    /**
+     * Hiển thị trang profile của người dùng
+     */
+    public function showProfile()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        return view('user.profile', compact('user'));
+    }
+    
+    /**
+     * Hiển thị danh sách đơn hàng của người dùng
+     */
+    public function showOrders()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $orders = $user->orders()->orderBy('created_at', 'desc')->get();
+        return view('user.orders', compact('user', 'orders'));
+    }
+    
+    /**
+     * Hiển thị chi tiết đơn hàng
+     */
+    public function showOrderDetail($id)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $order = $user->orders()->with('orderItems.product')->findOrFail($id);
+        return view('user.order_detail', compact('user', 'order'));
     }
 }

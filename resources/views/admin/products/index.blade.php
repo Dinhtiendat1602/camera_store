@@ -39,7 +39,7 @@
                 </thead>
                 <tbody>
                     @forelse($products ?? [] as $product)
-                    @if($product && is_object($product))
+                    @if(isset($product) && is_object($product))
                     <tr>
                         <td>{{ isset($product->id) ? $product->id : '' }}</td>
                         <td>

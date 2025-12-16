@@ -1,0 +1,147 @@
+/* Profile Page Styles */
+.profile-container {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.profile-sidebar .card {
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border: none;
+    margin-bottom: 20px;
+}
+
+.profile-sidebar .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px 10px 0 0 !important;
+    font-weight: bold;
+    text-align: center;
+}
+
+.profile-sidebar .nav-link {
+    color: #333;
+    border-radius: 5px;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+.profile-sidebar .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #667eea;
+}
+
+.profile-sidebar .nav-link.active {
+    background-color: #667eea;
+    color: white;
+}
+
+.profile-content .card {
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.profile-content .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    color: #333;
+    padding: 20px;
+}
+
+.profile-info {
+    padding: 20px;
+}
+
+.profile-info .form-group {
+    margin-bottom: 20px;
+}
+
+.profile-info label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.profile-info p {
+    margin-bottom: 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border-left: 3px solid #667eea;
+}
+
+/* Orders Table Styles */
+.orders-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+.orders-table thead th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.orders-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.badge-status {
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Order Detail Styles */
+.order-detail-section {
+    margin-bottom: 30px;
+}
+
+.order-detail-section h6 {
+    color: #667eea;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.order-products-table {
+    margin-bottom: 20px;
+}
+
+.order-summary-table {
+    width: 100%;
+}
+
+.order-summary-table td {
+    padding: 8px 0;
+}
+
+.order-summary-table tr:last-child td {
+    border-top: 2px solid #dee2e6;
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-container {
+        margin-top: 15px;
+    }
+    
+    .profile-sidebar {
+        margin-bottom: 20px;
+    }
+    
+    .profile-info .row > div {
+        margin-bottom: 20px;
+    }
+}

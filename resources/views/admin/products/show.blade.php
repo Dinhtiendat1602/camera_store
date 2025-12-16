@@ -48,7 +48,7 @@
                                 <th>Giá gốc:</th>
                                 <td class="text-danger fw-bold">{{ number_format($product->price ?? 0) }}₫</td>
                             </tr>
-                            @if(isset($product->sale_price))
+                                                        @if(isset($product) && isset($product->sale_price))
                             <tr>
                                 <th>Giá khuyến mãi:</th>
                                 <td class="text-success fw-bold">{{ number_format($product->sale_price) }}₫</td>

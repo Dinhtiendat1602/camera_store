@@ -60,6 +60,52 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
+
+/* Styles for bank transfer payment */
+.payment-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.payment-info h3 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.bank-details {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.bank-details p {
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+.qr-code-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.qr-code-container img {
+    max-width: 200px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.hidden {
+    display: none;
+}
 </style>
 
 <div class="success-container">
@@ -73,6 +119,27 @@
         Cảm ơn bạn đã đặt hàng tại Camera Store. <br>
         Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng.
     </p>
+    
+    <!-- Payment information for bank transfer -->
+    @if(isset($order) && $order && $order->payment_method === 'bank')
+    <div class="payment-info">
+        <h3>Thông tin thanh toán chuyển khoản</h3>
+        <div class="bank-details">
+            <p><strong>Ngân hàng:</strong> VP Bank - Chi nhánh TP.HCM</p>
+            <p><strong>Số tài khoản:</strong> 0942 981 363</p>
+            <p><strong>Chủ tài khoản:</strong> Đinh Tiến Đạt</p>
+            <p><strong>Số tiền:</strong> {{ number_format($order->final_amount, 0, ',', '.') }}₫</p>
+            <p><strong>Nội dung chuyển khoản:</strong> {{ $order->order_code }} - {{ $order->customer_name }}</p>
+        </div>
+        
+        <div class="qr-code-container">
+            <p><strong>Quét mã QR để thanh toán:</strong></p>
+            <!-- Replace with your actual QR code image path -->
+            <img src="{{ asset('source/images/QR/qr.png') }}" alt="QR Code thanh toán">
+        </div>      
+        <p><i class="fas fa-info-circle"></i> Vui lòng chuyển khoản trong vòng 24 giờ. Sau khi chuyển khoản, đơn hàng sẽ được xử lý.</p>
+    </div>
+    @endif
     
     <div class="success-actions">
         <a href="{{ route('home') }}" class="btn btn-primary">
