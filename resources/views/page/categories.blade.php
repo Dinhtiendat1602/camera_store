@@ -119,6 +119,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Show success notification
                     showNotification('Đã thêm sản phẩm vào giỏ hàng!', 'success');
                     
+                    // Update cart count in header
+                    updateCartCountInHeader();
+                    
                     // Reset button after 2 seconds
                     setTimeout(() => {
                         btnIcon.className = 'fas fa-shopping-cart';
@@ -170,6 +173,24 @@ document.addEventListener('DOMContentLoaded', function() {
             notification.classList.remove('show');
             setTimeout(() => notification.remove(), 300);
         }, 3000);
+    }
+    
+    // Update cart count in header
+    function updateCartCountInHeader() {
+        fetch('/cart/count')
+            .then(response => response.json())
+            .then(data => {
+                const cartBadge = document.querySelector('.cart-badge');
+                if (cartBadge) {
+                    if (data.count > 0) {
+                        cartBadge.textContent = data.count;
+                        cartBadge.style.display = 'block';
+                    } else {
+                        cartBadge.style.display = 'none';
+                    }
+                }
+            })
+            .catch(error => console.error('Error updating cart count:', error));
     }
 });
     </script>

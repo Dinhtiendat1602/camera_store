@@ -109,6 +109,38 @@
                 </div>
             </div>
         </div>
+        
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Sản phẩm gần hết hàng</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tên sản phẩm</th>
+                                <th>Tồn kho</th>
+                                <th>Đã bán</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($low_stock_products ?? [] as $product)
+                            <tr>
+                                <td>{{ $product->name ?? 'N/A' }}</td>
+                                <td>{{ $product->quantity ?? 0 }}</td>
+                                <td>{{ $product->total_sold ?? 0 }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center">Chưa có dữ liệu</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="col-lg-6">
@@ -122,15 +154,15 @@
                         <thead>
                             <tr>
                                 <th>Tên sản phẩm</th>
-                                <th>Thương hiệu</th>
+                                <th>Đã bán</th>
                                 <th>Tồn kho</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($low_stock_products ?? [] as $product)
+                            @forelse($best_selling_products ?? [] as $product)
                             <tr>
                                 <td>{{ $product->name ?? 'N/A' }}</td>
-                                <td>{{ $product->brand ?? 'N/A' }}</td>
+                                <td>{{ $product->total_sold ?? 0 }}</td>
                                 <td>{{ $product->quantity ?? 0 }}</td>
                             </tr>
                             @empty

@@ -14,12 +14,6 @@
             --radius: 8px;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f5f7fa;
@@ -576,4 +570,41 @@
             0%, 100% { transform: rotate(0deg); }
             25% { transform: rotate(-15deg); }
             75% { transform: rotate(15deg); }
+        }
+        
+        /* Cart Header */
+        .cart-header {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .cart-header h1 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 2rem;
+        }
+        
+        .cart-header h1 i {
+            color: var(--secondary);
+        }
+        
+        .cart-count-display {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .cart-count-display {
+                display: block;
+                margin-top: 10px;
+                font-size: 1rem;
+            }
         }

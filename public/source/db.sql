@@ -212,12 +212,12 @@ CREATE TABLE promotions (
     code VARCHAR(50) UNIQUE NOT NULL,
     name VARCHAR(100) NOT NULL,
     description TEXT,
-    discount_type VARCHAR(20) DEFAULT 'percentage', -- percentage or fixed
+    discount_type VARCHAR(20) DEFAULT 'percentage', 
     discount_value DECIMAL(10,2) NOT NULL,
     min_order_amount DECIMAL(15,2) DEFAULT 0,
     max_discount_amount DECIMAL(15,2) DEFAULT NULL,
     start_date DATETIME NOT NULL,
-    end_date DATETIME NOT NULL, -- ĐÃ SỬA LỖI: Bỏ "NOTETIME" thừa
+    end_date DATETIME NOT NULL,
     usage_limit INT DEFAULT NULL,
     used_count INT DEFAULT 0,
     is_active BOOLEAN DEFAULT TRUE,
@@ -555,7 +555,7 @@ INSERT INTO product_policies (product_id, policy_type, policy_content, sort_orde
 (10,'Warranty','Bảo hành cao cấp 36 tháng toàn cầu',1),
 (10,'Return','Đổi mới trong 15 ngày nếu lỗi phần cứng',2),
 (10,'Insurance','Bảo hiểm rơi vỡ & vào nước 12 tháng',3);
--- Thêm chính sách cho các sản phẩm còn lại (ví dụ đơn giản)
+-- Thêm chính sách cho các sản phẩm còn lại
 INSERT INTO product_policies (product_id, policy_type, policy_content, sort_order)
 SELECT id, 'Warranty','Bảo hành 12 tháng',1 FROM products WHERE id NOT IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 INSERT INTO product_policies (product_id, policy_type, policy_content, sort_order)
@@ -684,16 +684,16 @@ INSERT INTO order_items (order_id, product_id, quantity, price) VALUES
 (5,57,1,15000000.00),
 (6,52,1,52000000.00);
 SET FOREIGN_KEY_CHECKS=1;
-
--- End of fixed seed file
-use camera_store;
+--===========================================================
 -- truy vấn 
--- giảm giá cho các sản phẩm nnổibaatj
+use camera_store;
+
+-- giảm giá cho các sản phẩm nổi bật
 UPDATE products
 SET sale_price = price - (price * 15 / 100)
 WHERE is_featured = 1;
--- Thêm cột update_at vào table users
 
+-- Thêm cột update_at vào table users
 ALTER TABLE users
 ADD updated_at TIMESTAMP NULL DEFAULT NULL;
 

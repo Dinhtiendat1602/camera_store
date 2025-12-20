@@ -12,7 +12,7 @@
     @yield('custom_css')
 </head>
 
-<body>
+<body class="{{ request()->routeIs('cart') ? 'cart-page' : '' }}">
     @include('header')
     @yield('content')
     @include('footer')

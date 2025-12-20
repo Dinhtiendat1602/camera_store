@@ -22,6 +22,9 @@
 @endif
 
 <div class="container">
+    <div class="cart-header">
+        <h1><i class="fas fa-shopping-cart"></i> Giỏ Hàng Của Bạn <span class="cart-count-display">({{ $cartItems->count() }} sản phẩm)</span></h1>
+    </div>
     <div class="cart-container">
         @if($cartItems->count() > 0)
             <!-- Phần sản phẩm -->
@@ -171,11 +174,39 @@ function updateQuantity(cartId, newQuantity) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            // Update the cart count display
+            updateCartCountDisplay();
+            
+            // Reload the page to reflect changes
             location.reload();
         } else {
             alert('Không thể cập nhật số lượng!');
         }
     });
+}
+
+// Update cart count display
+function updateCartCountDisplay() {
+    fetch('/cart/count')
+        .then(response => response.json())
+        .then(data => {
+            const cartCountDisplay = document.querySelector('.cart-count-display');
+            if (cartCountDisplay) {
+                cartCountDisplay.textContent = `(${data.count} sản phẩm)`;
+            }
+            
+            // Also update the header cart badge
+            const cartBadge = document.querySelector('.cart-badge');
+            if (cartBadge) {
+                if (data.count > 0) {
+                    cartBadge.textContent = data.count;
+                    cartBadge.style.display = 'flex';
+                } else {
+                    cartBadge.style.display = 'none';
+                }
+            }
+        })
+        .catch(error => console.error('Error updating cart count:', error));
 }
 </script>
 @endsection

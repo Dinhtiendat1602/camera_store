@@ -30,8 +30,9 @@ class AdminController extends Controller
 
         $recent_orders = Order::with('user')->orderBy('created_at', 'desc')->take(10)->get();
         $low_stock_products = Product::where('quantity', '<', 10)->orderBy('quantity')->take(10)->get();
+        $best_selling_products = Product::orderBy('total_sold', 'desc')->take(10)->get();
 
-        return view('admin.dashboard', compact('stats', 'recent_orders', 'low_stock_products'));
+        return view('admin.dashboard', compact('stats', 'recent_orders', 'low_stock_products', 'best_selling_products'));
     }
 
     /**
