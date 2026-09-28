@@ -6,8 +6,7 @@ Camera Store is a comprehensive e-commerce web application built with PHP and La
 
 To log in and access the administrative dashboard, use the following default credentials:
 
-- **Email:** `dinhtiendat1602@gmail.com`
-- **Password:** `123456`
+
 
 ## Features
 
